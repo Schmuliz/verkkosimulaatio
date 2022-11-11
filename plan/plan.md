@@ -9,7 +9,7 @@ Date: 11.11.2022
 ---
 
 
-# Scope of project (Tuomo)
+# Scope of project
 
 The aim of our project is to implement a software based network simulator. The simulator will have all the basic features listed in A+ and a GUI based on Qt. 
 
