@@ -23,10 +23,9 @@ The simulation works by running smaller simulation steps for every element. We w
 
 # High level structure
 
+We created a UML class diagram with drawio to illustrate the initial plan for the class structure of the core classes and their relations, as shown by [@fig:uml1].
 
-## UML diagram of the class structure
-
-![Class Diagram](./class_diagram.drawio.svg)
+![UML Class Diagram](./class_diagram.drawio.svg){#fig:uml1}
 
 
 ## Class structure
