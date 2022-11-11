@@ -1,0 +1,2 @@
+/home/eemeli/dev/verkkosimu/build/CMakeFiles/edit_cache.dir
+/home/eemeli/dev/verkkosimu/build/CMakeFiles/rebuild_cache.dir
