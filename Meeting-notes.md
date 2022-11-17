@@ -50,3 +50,39 @@ Short summary of current project status.
 ### TODOs
 1. Member 1: Write an action.
 2. ...
+
+
+
+
+# Meeting 17.11.2022 klo. 18
+
+**Participants**: 
+everybody
+
+## Summary of works
+
+- Getting familiar with Qt
+- Planning simulation logic on paper
+
+## Challenges
+
+1. Order of planned tasks to actually start coding
+2. Getting momentum to work, initial uncertaintly about the practical steps needed
+
+
+## Actions
+1. Eemeli, creating qt project so that qt classes can be used in other code.
+2. Tuomo, practical simulation logic on class level
+3. Joonas, creating placeholder classes
+4. Samuli, Helping the other tasks
+
+> Please reflect these action decisions in your git commit messages so that 
+> your group members and advisor can follow the progress.
+
+## Project status 
+Setting up and practical planning. 
+
+### TODOs
+- Get the project into a state that expanding the simulaor and code is straightforward. 
+    - Placeholders for things we know we need
+
