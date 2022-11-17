@@ -1,13 +1,12 @@
-# Project Name (replace here!)
+# Verkkosimu
 
-This is the template for the projects. Please copy the project description here. 
-You can use Markdown language to render it as formatted **HTML** file.
+Network performance can be analysed using a network simulator, that models the data communication behavior in different network scenarios. Many simulators are discrete event simulators, that model route of packets in the network and invoke events at calculated times when packets need to be processed. Network simulators can be useful when designing new communication protocols, or testing how existing protocols perform in different kinds of scenarios.
 
 # Group
-- Member 1
-- Member 2
-- Member 3
-- Member 4
+- Eemeli Welling
+- Tuomo Nappa
+- Joonas Björk
+- Samuli Mannonen
 
 # Repository organization
 Your project implementation should follow the skelaton organization in this repository.
