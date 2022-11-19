@@ -22,6 +22,10 @@ cmake ..
 cmake --build .
 ```
 
+Installation 
+
+`cmake --install . --prefix install_prefix`
+
 
 
 # Repository organization
