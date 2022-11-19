@@ -1,5 +1,6 @@
 # omat
-build/**
+build/*
+!build/.gitkeep
 
 # Prerequisites
 *.d

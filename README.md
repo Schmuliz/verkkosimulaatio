@@ -8,6 +8,22 @@ Network performance can be analysed using a network simulator, that models the d
 - Joonas Björk
 - Samuli Mannonen
 
+# Building 
+
+## QtCreator
+
+QtCreator can build this project. Open project by opening the root CMakeLists.txt as a project. 
+
+## cmake
+
+```
+cd build
+cmake ..
+cmake --build .
+```
+
+
+
 # Repository organization
 Your project implementation should follow the skelaton organization in this repository.
 See readme.md files in each folder.
