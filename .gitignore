@@ -1,6 +1,7 @@
 # omat
 build/*
 !build/.gitkeep
+CMakeLists.txt.user
 
 # Prerequisites
 *.d
