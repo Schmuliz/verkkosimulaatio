@@ -19,6 +19,13 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        Network.h
+        Node.h
+        Link.h
+        Packet.h
+        Application.h
+        EndHost.h
+        Router.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
