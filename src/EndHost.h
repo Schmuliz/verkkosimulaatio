@@ -1,7 +1,17 @@
 #ifndef ENDHOST_H
 #define ENDHOST_H
 
-class EndHost : public Router, public Node
+#include "Node.h"
+#include "Application.h"
+#include "Router.h"
+
+class EndHost : public Node
+{
+private:
+    Application application;
+};
+
+class RoutingEndHost : public Router
 {
 private:
     Application application;

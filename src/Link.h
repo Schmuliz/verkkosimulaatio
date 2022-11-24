@@ -1,8 +1,12 @@
 #ifndef LINK_H
 #define LINK_H
 
+//#include "Node.h"
+#include "Packet.h"
 #include <QGraphicsItem>
 #include <vector>
+
+class Node; // forward definition, can not include normally
 
 class Link : public QGraphicsItem
 {
