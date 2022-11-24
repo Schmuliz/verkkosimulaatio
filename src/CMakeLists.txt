@@ -26,6 +26,7 @@ set(PROJECT_SOURCES
         Application.h
         EndHost.h
         Router.h
+        Router.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

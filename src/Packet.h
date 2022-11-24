@@ -3,7 +3,7 @@
 
 #include <QGraphicsItem>
 
-class Packet : public QGraphicsItem
+class Packet /*: public QGraphicsItem */
 {
 public:
     Packet(int id, int source, int destination, int size, int age);

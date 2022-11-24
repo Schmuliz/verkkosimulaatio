@@ -39,7 +39,7 @@
        </layout>
       </item>
       <item row="0" column="0">
-       <widget class="QGraphicsView" name="graphicsView">
+       <widget class="QGraphicsView" name="networkView">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
