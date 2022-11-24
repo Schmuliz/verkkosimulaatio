@@ -5,7 +5,7 @@
 #include <QGraphicsItem>
 #include <vector>
 
-class Network : public QGraphicsItem
+class Network
 {
 public:
     Network();
