@@ -84,5 +84,44 @@ Setting up and practical planning.
 
 ### TODOs
 - Get the project into a state that expanding the simulaor and code is straightforward. 
-    - Placeholders for things we know we need
+- Placeholders for things we know we need
 
+
+
+
+# Meeting 24.11.2022 klo. 19
+
+**Participants**:
+everybody
+
+## Summary of works
+
+- Planned class relationships, variables and methods
+- Created QT GUI and got drawing of QGraphicsItems to work
+- Created All header files and some cpp files
+
+## Challenges
+
+- Implementation of links that have two directions. Made decision to make links one-way. 
+- Challenges with using QT
+
+## Actions
+
+1. Eemeli, Further implementation of the GUI and file handling
+2. Tuomo, Joonas, Samuli implementation class methods based on tickets and necessary order. 
+
+## Project status
+
+Project setup is done. More planning done as practical implementation problems have arised. 
+Starting implementation of classes. 
+
+## TODOs
+
+- Implement different Node types
+- Implement Links
+- Implement path finding algorithm for nodes
+- Implement reading network from a file
+- Implement different Application packet creation algorithms
+- Non-visually implement packet movement 
+- Visually implement packet movement
+- Add coordinates to objects that are to be drawn
