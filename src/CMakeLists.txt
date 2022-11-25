@@ -28,6 +28,7 @@ set(PROJECT_SOURCES
         Router.h
         Router.cpp
         Packet.cpp
+        Link.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
