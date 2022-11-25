@@ -7,14 +7,12 @@ class Packet /*: public QGraphicsItem */
 {
 public:
     Packet(int id, int source, int destination, int size, int age);
-    ~Packet();
-    void runOneTick();
-private:
-    int ID;
-    int sourceAddress;
-    int destinationAddress;
-    int size;
-    int age;
+    void runOneTick() {}; // not used for anything right now
+    const int ID;
+    const int sourceAddress;
+    const int destinationAddress;
+    const int size;
+    const int age;
     double transmitted;
     double received;
 };
