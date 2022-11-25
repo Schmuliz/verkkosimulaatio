@@ -9,8 +9,7 @@
 class Node : public QGraphicsItem
 {
 public:
-    Node(int address) :
-        address(address) {};
+    Node(int address);
 
     void runOneTick();
     void receive(Packet* packet);
@@ -21,6 +20,7 @@ private:
     std::vector<Packet*> packets;
     int address;
     std::vector<Packet*> received;
+    std::map<int, Link*> lookupTable;
 };
 
 #endif // NODE_H
