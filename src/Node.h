@@ -13,7 +13,7 @@ public:
         address(address) {};
 
     void runOneTick();
-    void receive(Packet packet);
+    void receive(Packet* packet);
     void receivePackets();
     virtual void processPacket(Packet *packet) = 0;
 private:
