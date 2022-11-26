@@ -7,7 +7,7 @@ class Packet /*: public QGraphicsItem */
 {
 public:
     Packet(int id, int source, int destination, int size, int age);
-    void runOneTick() {}; // not used for anything right now
+    void runOneTick() {} // not used for anything right now
     const int ID;
     const int sourceAddress;
     const int destinationAddress;

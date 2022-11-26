@@ -1,5 +1,6 @@
 #include "Link.h"
 #include "Node.h"
+#
 
 Link::Link(Node* node1,
            Node* node2,

@@ -5,22 +5,29 @@
 #include "Packet.h"
 #include <QGraphicsItem>
 #include <vector>
+#include "qpainter.h"
 
 class Node : public QGraphicsItem
 {
 public:
     Node(int address);
+    ~Node(){}
 
     void runOneTick();
     void receive(Packet* packet);
     void receivePackets();
     virtual void processPacket(Packet *packet) = 0;
+
+    //QT inherited functions, might be overridden by different types of nodes
+    QRectF boundingRect() const override;
+    void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;
+
 private:
-    std::vector<Link*> links;
-    std::vector<Packet*> packets;
-    int address;
-    std::vector<Packet*> received;
-    std::map<int, Link*> lookupTable;
+    std::vector<Link*> links_;
+    std::vector<Packet*> packets_;
+    int address_;
+    std::vector<Packet*> received_;
+    std::map<int, Link*> lookupTable_;
 };
 
 #endif // NODE_H

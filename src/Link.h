@@ -12,7 +12,7 @@ class Node; // forward definition, can not include normally
  * @brief The Link class is a one-directional edge between nodes.
  * Goes from node1 to node 2
  */
-class Link : public QGraphicsItem
+class Link /* : public QGraphicsItem */
 {
 public:
     Link(Node* node1, Node* node2, double transmissionSpeed, double propagationDelay);
@@ -37,6 +37,11 @@ public:
      * when it is completely transmitted from the sender node to this link.
      */
     void receivePackets();
+
+    //QT inherited functions, placeholders to allow building
+    //QRectF boundingRect() const override;
+    //void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;
+
 private:
     double transmissionSpeed_;
     double propagationDelay_;

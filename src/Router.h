@@ -8,11 +8,8 @@
 class Router : public Node
 {
 public:
-    Router(int address) : Node(address) {};
-
-    QRectF boundingRect() const override;
-    void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;
-
+    Router(int address);
+    ~Router(){}
     void processPacket(Packet *packet) override;
 
 private:

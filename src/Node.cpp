@@ -1,32 +1,40 @@
 #include "Node.h"
 
 Node::Node(int address) :
-    address(address) {};
+    address_(address) {}
 
 void Node::runOneTick() {
-    if (!packets.empty()) {
-        int dst = packets.front()->destinationAddress;
+    if (!packets_.empty()) {
+        int dst = packets_.front()->destinationAddress;
 
-        if (dst == address) {
-            this->processPacket(packets.front());
-            packets.erase(packets.begin());
+        if (dst == address_) {
+            this->processPacket(packets_.front());
+            packets_.erase(packets_.begin());
             return;
         }
 
-        Link* destinationLink = lookupTable[dst];
-        if (destinationLink->receive(packets.front())) {
-            packets.erase(packets.begin());
+        Link* destinationLink = lookupTable_[dst];
+        if (destinationLink->receive(packets_.front())) {
+            packets_.erase(packets_.begin());
         }
     }
 }
 
 void Node::receive(Packet* packet) {
-    packets.push_back(packet);
+    packets_.push_back(packet);
 }
 
 void Node::receivePackets() {
-    while (!received.empty()) {
-        packets.push_back(received.front());
-        received.erase(received.begin());
+    while (!received_.empty()) {
+        packets_.push_back(received_.front());
+        received_.erase(received_.begin());
     }
+}
+
+void Node::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) {
+    painter->drawRoundedRect(-10, -10, 20, 20, 5, 5);
+}
+
+QRectF Node::boundingRect() const {
+    return QRectF(50,50,50,50);
 }

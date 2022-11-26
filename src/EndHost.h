@@ -7,14 +7,22 @@
 
 class EndHost : public Node
 {
+public:
+    EndHost(int address, Application applicationType);
+    ~EndHost(){}
+    void processPacket(Packet *packet) override;
 private:
-    Application application;
+    Application application_;
 };
 
 class RoutingEndHost : public Router
 {
+public:
+    RoutingEndHost(int address, Application applicationType);
+    ~RoutingEndHost(){}
+    void processPacket(Packet *packet) override;
 private:
-    Application application;
+    Application application_;
 };
 
 
