@@ -1,9 +1,11 @@
 {
   "nodes": [
-    {"address": 1, "application": 1, "posx": 10, "posy": 10},
-    {"address": 2, "application": 1, "posx": 20, "posy": 10}
+    {"address": 2, "posx": 50, "posy": 10, "application": 0, "routing": 1},
+    {"address": 1, "posx": 10, "posy": 10, "application": 1, "routing": 0},
+    {"address": 3, "posx": 70, "posy": 10, "application": 1, "routing": 1}
   ],
   "links": [
-    {"hosta": 1, "hostb": 2, "delay": 50, "bandwidth": 500}
+    {"hosta": 1, "hostb": 2, "delay": 50, "bandwidth": 500},
+    {"hosta": 2, "hostb": 3, "delay": 50, "bandwidth": 500}
   ]
 }
