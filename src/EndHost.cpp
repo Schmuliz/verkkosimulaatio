@@ -1,11 +1,11 @@
 #include "EndHost.h"
 
-RoutingEndHost::RoutingEndHost(int address, Application applicationType)
-    : Router(address), application_(applicationType) {}
+RoutingEndHost::RoutingEndHost(int address, int applicationid)
+    : Router(address), application_(applicationid) {}
 
 void RoutingEndHost::processPacket(Packet *packet) {}
 
-EndHost::EndHost(int address, Application applicationType)
-    : Node(address), application_(applicationType) {}
+EndHost::EndHost(int address, int applicationid)
+    : Node(address), application_(applicationid) {}
 
 void EndHost::processPacket(Packet *packet) {}
