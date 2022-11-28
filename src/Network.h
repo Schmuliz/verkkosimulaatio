@@ -9,6 +9,7 @@
 #include <vector>
 #include <iostream>
 #include <QString>
+#include <QMap>
 
 class Network
 {
@@ -17,13 +18,10 @@ public:
     Network(QString filename);
     ~Network();
     void runOneTick();
-    void createRouter(int address);
-    void createEndHost(int address, Application application);
-    void createRoutingEndHost(int address, Application application);
-    void createLink(Node* n1, Node* n2, double transmissionSpeed, double propagationDelay);
-    bool loadNetwork();
+    void addNode(Node* n);
+    void addLink(int a, int b, double bandwidth, double delay);
 private:
-    std::vector<Node*> nodes_;
+    QMap<int, Node*> nodes_; // address-node
     std::vector<Link*> links_;
 };
 

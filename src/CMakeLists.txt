@@ -32,6 +32,7 @@ set(PROJECT_SOURCES
         Node.cpp
         Network.cpp
         EndHost.cpp
+        Application.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

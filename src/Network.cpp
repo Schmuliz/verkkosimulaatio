@@ -4,6 +4,40 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
+Node* createNodeFromJsonObject(QJsonObject obj) {
+    Node* node;
+
+    int address = obj["address"].toInt();
+    int posx = obj["posx"].toInt();
+    int posy = obj["posy"].toInt();
+    int applicationid = obj["application"].toInt();
+    int routing = obj["routing"].toInt();
+
+    if(applicationid && routing) {
+        node = new RoutingEndHost(address, applicationid);
+    }
+    else if (applicationid) {
+        node = new EndHost(address, applicationid);
+    }
+    else if (routing) {
+        node = new Router(address);
+    }
+    else {
+        throw "unknown node type";
+    }
+
+    node->setPos(posx, posy);
+    return node;
+}
+
+void addJsonLinkToNetwork(Network *net, QJsonObject obj) {
+    int hosta = obj["hosta"].toInt();
+    int hostb = obj["hostb"].toInt();
+    double bandwidth = obj["bandwidth"].toDouble();
+    double delay = obj["delay"].toDouble();
+
+    net->addLink(hosta, hostb, bandwidth, delay);
+}
 
 Network::Network(QString filename) {
     qInfo() << "Loading network from file";
@@ -21,15 +55,22 @@ Network::Network(QString filename) {
 
     // parse json, create elements for each node and link
     try {
-        QJsonArray nodearr = doc["nodes"].toArray();
-        for(auto n : nodearr) {
+        QJsonArray nodeArr = doc["nodes"].toArray();
+        for(auto n : nodeArr) {
             QJsonObject jn = n.toObject();
             qInfo() << jn;
-            // do something with
-                // address
-                // application
-                // positions
+            Node* node = createNodeFromJsonObject(jn);
+            addNode(node);
         }
+
+        QJsonArray linkArr = doc["links"].toArray();
+        for(auto l : linkArr) {
+            QJsonObject jl = l.toObject();
+            qInfo() << jl;
+            addJsonLinkToNetwork(this, jl);
+        }
+
+
     }
     catch (std::exception) {
         throw "failed to parse network configuration";
@@ -60,23 +101,14 @@ void Network::runOneTick() {
     }
 }
 
-void Network::createRouter(int address) {
-    Router* router = new Router(address);
-    nodes_.push_back(router);
+void Network::addNode(Node *node) {
+    nodes_.insert(node->getAddress(), node);
 }
 
-void Network::createEndHost(int address, Application application) {
-    EndHost* endHost = new EndHost(address, application);
-    nodes_.push_back(endHost);
-}
-
-void Network::createLink(Node* n1, Node* n2, double transmissionSpeed, double propagationDelay) {
-    Link* link = new Link(n1, n2, transmissionSpeed, propagationDelay);
+void Network::addLink(int a, int b, double bandwidth, double delay) {
+    // lookup nodes based on address
+    Node* hosta = nodes_[a];
+    Node* hostb = nodes_[b];
+    Link* link = new Link(hosta, hostb, bandwidth, delay);
     links_.push_back(link);
 }
-
-void Network::createRoutingEndHost(int address, Application application) {
-    RoutingEndHost* routingEndHost = new RoutingEndHost(address, application);
-    nodes_.push_back(routingEndHost);
-}
-

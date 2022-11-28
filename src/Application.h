@@ -7,6 +7,7 @@
 class Application
 {
 public:
+    Application(int id);
     Packet* packet_generator();
 private:
     double transmission_interval;
