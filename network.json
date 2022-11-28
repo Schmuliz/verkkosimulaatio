@@ -1,0 +1,9 @@
+{
+  "nodes": [
+    {"address": 1, "application": 1, "posx": 10, "posy": 10},
+    {"address": 2, "application": 1, "posx": 20, "posy": 10}
+  ],
+  "links": [
+    {"hosta": 1, "hostb": 2, "delay": 50, "bandwidth": 500}
+  ]
+}
