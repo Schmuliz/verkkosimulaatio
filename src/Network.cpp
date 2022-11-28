@@ -1,12 +1,39 @@
 #include "Network.h"
 #include <QJsonDocument>
 #include <QFile>
+#include <QJsonArray>
+#include <QJsonObject>
 
 
 Network::Network(QString filename) {
     qInfo() << "Loading network from file";
+
+    // open the file, read it
     QFile networkFile(filename);
+    if(!networkFile.open(QIODevice::ReadOnly | QIODevice::Text))
+        throw "Opening config file failed";
     qInfo() << "network file size: " << networkFile.size();
+    QByteArray barr = networkFile.readAll();
+
+    // load json
+    QJsonDocument doc = QJsonDocument::fromJson(barr);
+    qInfo() << "the loaded json doc: " << doc.toJson();
+
+    // parse json, create elements for each node and link
+    try {
+        QJsonArray nodearr = doc["nodes"].toArray();
+        for(auto n : nodearr) {
+            QJsonObject jn = n.toObject();
+            qInfo() << jn;
+            // do something with
+                // address
+                // application
+                // positions
+        }
+    }
+    catch (std::exception) {
+        throw "failed to parse network configuration";
+    }
 }
 
 Network::~Network() {
