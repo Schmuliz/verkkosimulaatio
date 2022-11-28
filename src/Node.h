@@ -21,7 +21,6 @@ public:
     //QT inherited functions, might be overridden by different types of nodes
     QRectF boundingRect() const override;
     void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;
-
 private:
     std::vector<Link*> links_;
     std::vector<Packet*> packets_;

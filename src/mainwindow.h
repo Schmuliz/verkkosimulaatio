@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "qgraphicsscene.h"
+#include "Network.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -19,9 +20,12 @@ public:
 private slots:
     void on_actionExit_triggered();
 
+    void on_actionLoad_Simulation_triggered();
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *Scene;
+    Network *network_;
 };
 
 

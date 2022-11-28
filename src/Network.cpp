@@ -1,5 +1,22 @@
 #include "Network.h"
+#include <QJsonDocument>
+#include <QFile>
 
+
+Network::Network(QString filename) {
+    qInfo() << "Loading network from file";
+    QFile networkFile(filename);
+    qInfo() << "network file size: " << networkFile.size();
+}
+
+Network::~Network() {
+    for(auto n : nodes_) {
+        delete n;
+    }
+    for(auto l : links_) {
+        delete l;
+    }
+}
 
 void Network::runOneTick() {
     for (auto const& node : nodes_) {
@@ -35,3 +52,4 @@ void Network::createRoutingEndHost(int address, Application application) {
     RoutingEndHost* routingEndHost = new RoutingEndHost(address, application);
     nodes_.push_back(routingEndHost);
 }
+
