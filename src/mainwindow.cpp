@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include "EndHost.h"
 #include "Router.h"
+#include "RoutingEndHost.h"
 #include <QFileDialog>
 #include <QDebug> // qDebug() is cursed, use qInfo() or higher
 
@@ -16,10 +18,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     // example render
     QGraphicsItem *g1 = new Router(123);
-    QGraphicsItem *g2 = new Router(124);
-    g2->setPos(100,100);
+    QGraphicsItem *g2 = new EndHost(124, 1);        g2->setPos(100,100);
+    QGraphicsItem *g3 = new RoutingEndHost(124, 1); g3->setPos(200,000);
+
     Scene->addItem(g1);
     Scene->addItem(g2);
+    Scene->addItem(g3);
+
 }
 
 MainWindow::~MainWindow()

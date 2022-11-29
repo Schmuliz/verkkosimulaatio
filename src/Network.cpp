@@ -1,4 +1,6 @@
 #include "Network.h"
+#include "EndHost.h"
+#include "RoutingEndHost.h"
 #include <QJsonDocument>
 #include <QFile>
 #include <QJsonArray>

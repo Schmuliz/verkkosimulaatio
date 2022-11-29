@@ -34,12 +34,3 @@ void Node::receivePackets() {
 int Node::getAddress() const {
     return address_;
 }
-
-void Node::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) {
-    painter->drawRoundedRect(-10, -10, 10, 10, 5, 5);
-}
-
-QRectF Node::boundingRect() const {
-    return QRectF(-10, -10, 10, 10);
-}
-

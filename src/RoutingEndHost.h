@@ -1,14 +1,15 @@
-#ifndef ENDHOST_H
-#define ENDHOST_H
+#ifndef ROUTINGENDHOST_H
+#define ROUTINGENDHOST_H
 
-#include "Node.h"
 #include "Application.h"
+#include "Router.h"
 
-class EndHost : public Node
+
+class RoutingEndHost : public Router
 {
 public:
-    EndHost(int address, int applicationid);
-    ~EndHost(){}
+    RoutingEndHost(int address, int applicationid);
+    ~RoutingEndHost(){}
     void processPacket(Packet *packet) override;
     void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;
     QRectF boundingRect() const override;
@@ -18,4 +19,4 @@ private:
 };
 
 
-#endif // ENDHOST_H
+#endif // ROUTINGENDHOST_H

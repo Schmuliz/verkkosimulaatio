@@ -2,9 +2,6 @@
 #define NETWORK_H
 
 #include "Link.h"
-#include "Application.h"
-#include "EndHost.h"
-#include "Router.h"
 #include <QGraphicsItem>
 #include <vector>
 #include <iostream>

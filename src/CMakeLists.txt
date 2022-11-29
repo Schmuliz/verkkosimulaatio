@@ -33,6 +33,8 @@ set(PROJECT_SOURCES
         Network.cpp
         EndHost.cpp
         Application.cpp
+        RoutingEndHost.h
+        RoutingEndHost.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

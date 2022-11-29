@@ -7,6 +7,9 @@
 #include <vector>
 #include "qpainter.h"
 
+#define sizeconst 25
+
+
 class Node : public QGraphicsItem
 {
 public:
@@ -18,9 +21,6 @@ public:
     void receivePackets();
     virtual void processPacket(Packet *packet) = 0;
 
-    //QT inherited functions, might be overridden by different types of nodes
-    QRectF boundingRect() const override;
-    void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;
     int getAddress() const;
 private:
     std::vector<Link*> links_;
