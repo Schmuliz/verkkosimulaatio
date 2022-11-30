@@ -2,8 +2,8 @@
 #include <QDebug>
 
 
-RoutingEndHost::RoutingEndHost(int address, int applicationid)
-    : Router(address), application_(applicationid) {}
+RoutingEndHost::RoutingEndHost(int address, Application* application)
+    : Router(address), application_(application) {}
 
 void RoutingEndHost::processPacket(Packet *packet) {}
 

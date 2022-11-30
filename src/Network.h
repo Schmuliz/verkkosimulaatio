@@ -11,7 +11,7 @@
 class Network
 {
 public:
-    Network() {};
+    Network() {}
     Network(QString filename);
     ~Network();
     void runOneTick();

@@ -6,6 +6,10 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
+Application* getApplication(int applicationId) {
+    return new TestApplication;
+}
+
 Node* createNodeFromJsonObject(QJsonObject obj) {
     Node* node;
 
@@ -15,11 +19,14 @@ Node* createNodeFromJsonObject(QJsonObject obj) {
     int applicationid = obj["application"].toInt();
     int routing = obj["routing"].toInt();
 
+    Application* app1 = getApplication(1);
+    Application* app2 = getApplication(2);
+
     if(applicationid && routing) {
-        node = new RoutingEndHost(address, applicationid);
+        node = new RoutingEndHost(address, app1);
     }
     else if (applicationid) {
-        node = new EndHost(address, applicationid);
+        node = new EndHost(address, app2);
     }
     else if (routing) {
         node = new Router(address);

@@ -4,6 +4,7 @@
 #include "Router.h"
 #include "RoutingEndHost.h"
 #include "Node.h"
+#include "Application.h"
 #include <QFileDialog>
 #include <QDebug> // qDebug() is cursed, use qInfo() or higher
 
@@ -18,9 +19,12 @@ MainWindow::MainWindow(QWidget *parent)
     network_ = new Network();
 
     // example render
+    Application* app1 = new TestApplication();
+    Application* app2 = new TestApplication();
+
     QGraphicsItem *g1 = new Router(123);            g1->setPos(-100, -100);
-    QGraphicsItem *g2 = new EndHost(124, 1);        g2->setPos(100,100);
-    QGraphicsItem *g3 = new RoutingEndHost(124, 1); g3->setPos(200,000);
+    QGraphicsItem *g2 = new EndHost(124, app1);        g2->setPos(100,100);
+    QGraphicsItem *g3 = new RoutingEndHost(124, app2); g3->setPos(200,000);
 
     QGraphicsItem *l1 = new Link((Node*)g1, (Node*)g3, 1, 1);// l1->setPos(g1->pos());
     QGraphicsItem *l2 = new Link((Node*)g1, (Node*)g2, 1, 1);// l2->setPos(g1->pos());

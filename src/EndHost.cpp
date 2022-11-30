@@ -2,7 +2,7 @@
 #include <QDebug>
 
 
-EndHost::EndHost(int address, int applicationid)
+EndHost::EndHost(int address, Application* applicationid)
     : Node(address), application_(applicationid) {}
 
 void EndHost::processPacket(Packet *packet) {}
