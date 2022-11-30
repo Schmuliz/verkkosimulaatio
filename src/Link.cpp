@@ -1,6 +1,6 @@
 #include "Link.h"
 #include "Node.h"
-#
+#include <QPen>
 
 Link::Link(Node* node1,
            Node* node2,
@@ -54,3 +54,31 @@ void Link::receivePackets() {
         }
     }
 }
+
+void Link::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) {
+    qInfo() << "trying to draw a link";
+    painter->setPen(QPen(Qt::black, 3));    // make the link line thicker
+    painter->translate(node1_->pos()); // set origin to node1
+    QPointF diff = node2_->pos() - node1_->pos();
+    qreal tmpx = diff.x();
+    qreal tmpy = diff.y();
+    qreal euclidian = std::sqrt(tmpx*tmpx + tmpy*tmpy);
+    qreal angle = std::atan2(tmpy, tmpx)*180/M_PI;
+
+    painter->rotate(angle);
+    painter->drawLine(sizeconst, 0, euclidian-sizeconst,0);
+//    qInfo() << "node1 pos" << node1_->pos();
+//    qInfo() << "node2 pos" << node2_->pos();
+
+}
+
+QRectF Link::boundingRect() const {
+    // figure out top left && bottom right
+    int x0 = std::min(node1_->x(), node2_->x());
+    int y0 = std::min(node1_->y(), node2_->y());
+    int x1 = std::max(node1_->x(), node2_->x());
+    int y1 = std::max(node1_->y(), node2_->y());
+
+    return QRectF(x0, y0, x1, y1);
+}
+

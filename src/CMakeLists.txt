@@ -11,7 +11,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Widgets)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Widgets Gui)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
@@ -60,7 +60,10 @@ else()
     endif()
 endif()
 
-target_link_libraries(verkkosimu PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Core)
+target_link_libraries(verkkosimu PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui)
+if(${QT_VERSION_MAJOR} EQUAL 6)
+   target_link_libraries(verkkosimu PRIVATE Qt6::Gui)
+endif()
 
 set_target_properties(verkkosimu PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
