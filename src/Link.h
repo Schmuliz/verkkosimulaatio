@@ -5,6 +5,8 @@
 #include "Packet.h"
 #include <QGraphicsItem>
 #include <QQueue>
+#include <cmath>
+#include <QDebug>
 
 class Node; // forward definition, can not include normally
 
