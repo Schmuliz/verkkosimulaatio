@@ -15,11 +15,7 @@ Link::~Link() {
     }
     delete inTransmission_;
 }
-/**
- * @brief Link::runOneTick advances pakcets in Link::packets_
- * according to propagation delay. If the firs packet in the queue
- * is transmitted, move it to the next node
- */
+
 void Link::runOneTick() {
     if (std::size(packets_) > 0) {
         // advance packets
@@ -54,6 +50,10 @@ void Link::receivePackets() {
         }
     }
 }
+
+const Node* Link::getDestination() const { return node2_; }
+const double Link::getTransmissionSpeed() const { return transmissionSpeed_; }
+const double Link::getPropagationDelay() const { return propagationDelay_; }
 
 void Link::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) {
     qInfo() << "trying to draw a link";

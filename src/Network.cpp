@@ -55,7 +55,7 @@ Network::Network(QString filename) {
     QJsonDocument doc = QJsonDocument::fromJson(barr);
     qInfo() << "the loaded json doc: " << doc.toJson();
 
-    // parse json, create elements for each node and link
+    // parse json, create elements for each node and link, and initialize routing tables for nodes
     try {
         QJsonArray nodeArr = doc["nodes"].toArray();
         for(auto n : nodeArr) {
@@ -72,7 +72,7 @@ Network::Network(QString filename) {
             addJsonLinkToNetwork(this, jl);
         }
 
-
+        this->initializeRoutingTables();
     }
     catch (std::exception) {
         throw "failed to parse network configuration";
@@ -113,4 +113,10 @@ void Network::addLink(int a, int b, double bandwidth, double delay) {
     Node* hostb = nodes_[b];
     Link* link = new Link(hosta, hostb, bandwidth, delay);
     links_.push_back(link);
+}
+
+void Network::initializeRoutingTables() const {
+    for (auto node : nodes_) {
+        node->initializeRoutingTable();
+    }
 }

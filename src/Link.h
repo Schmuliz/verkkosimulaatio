@@ -40,6 +40,10 @@ public:
      */
     void receivePackets();
 
+    const Node* getDestination() const;
+    const double getTransmissionSpeed() const;
+    const double getPropagationDelay() const;
+
     // virtual mehtods inherited from Qt that must be implemented
     QRectF boundingRect() const override;
     void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;

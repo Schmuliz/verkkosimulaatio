@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     Scene->addItem(l2);
     Scene->addEllipse(-5, -5, 10, 10); // center of the universe indicator
 
-
+    network_->initializeRoutingTables();
 }
 
 MainWindow::~MainWindow()
