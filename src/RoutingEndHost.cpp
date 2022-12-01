@@ -1,4 +1,5 @@
 #include "RoutingEndHost.h"
+#include "qpainter.h"
 #include <QDebug>
 
 

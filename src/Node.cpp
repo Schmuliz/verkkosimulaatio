@@ -1,4 +1,5 @@
 #include "Node.h"
+#include <cstdlib>
 
 Node::Node(int address) :
     address_(address) {}
@@ -33,4 +34,8 @@ void Node::receivePackets() {
 
 int Node::getAddress() const {
     return address_;
+}
+
+int Node::dummyStat() const {
+    return rand();
 }

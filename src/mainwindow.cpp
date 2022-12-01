@@ -4,8 +4,11 @@
 #include "Router.h"
 #include "RoutingEndHost.h"
 #include "Node.h"
+#include "SimulationThread.h"
 #include <QFileDialog>
 #include <QDebug> // qDebug() is cursed, use qInfo() or higher
+
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -18,19 +21,22 @@ MainWindow::MainWindow(QWidget *parent)
     network_ = new Network();
 
     // example render
-    QGraphicsItem *g1 = new Router(123);            g1->setPos(-100, -100);
-    QGraphicsItem *g2 = new EndHost(124, 1);        g2->setPos(100,100);
-    QGraphicsItem *g3 = new RoutingEndHost(124, 1); g3->setPos(200,000);
+    Node *g1 = new Router(123);            g1->setPos(100, 200);
+    Node *g2 = new EndHost(124, 1);        g2->setPos(-100,100);
+    Node *g3 = new RoutingEndHost(125, 1); g3->setPos(200,000);
 
-    QGraphicsItem *l1 = new Link((Node*)g1, (Node*)g3, 1, 1);// l1->setPos(g1->pos());
-    QGraphicsItem *l2 = new Link((Node*)g1, (Node*)g2, 1, 1);// l2->setPos(g1->pos());
+    network_->addNode(g1);
+    network_->addNode(g2);
+    network_->addNode(g3);
 
-    Scene->addItem(g1);
-    Scene->addItem(g2);
-    Scene->addItem(g3);
-    Scene->addItem(l1);
-    Scene->addItem(l2);
+    network_->addLink(123, 124, 1, 1);
+    network_->addLink(123, 125, 1, 1);
+
+    network_->populateScene(Scene);
+
     Scene->addEllipse(-5, -5, 10, 10); // center of the universe indicator
+
+    simthread_ = new SimulationThread(this, network_, Scene);
 
 
 }
@@ -38,6 +44,8 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete network_;
+    delete simthread_;
 }
 
 
@@ -63,3 +71,26 @@ void MainWindow::on_actionLoad_Simulation_triggered()
     delete network_;
     network_ = new Network(filename);
 }
+
+
+/***
+ * \brief Updates scene
+ */
+void MainWindow::on_pushButton_2_clicked()
+{
+    Scene->update();
+}
+
+
+void MainWindow::on_pushButton_clicked(bool checked)
+{
+    qInfo() << "play-pause checked  " << checked;
+
+    if(checked) {
+        simthread_->start();
+    } else {
+
+    }
+}
+
+

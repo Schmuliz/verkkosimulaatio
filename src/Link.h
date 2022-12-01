@@ -44,6 +44,7 @@ public:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;
 
+    int dummyStat() const;
 private:
     double transmissionSpeed_;
     double propagationDelay_;
