@@ -3,6 +3,7 @@
 
 #include "qgraphicsscene.h"
 #include "Network.h"
+#include "SimulationThread.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -22,10 +23,15 @@ private slots:
 
     void on_actionLoad_Simulation_triggered();
 
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *Scene;
     Network *network_;
+    SimulationThread *simthread_;
 };
 
 

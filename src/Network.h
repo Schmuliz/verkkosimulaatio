@@ -18,6 +18,8 @@ public:
     void addNode(Node* n);
     void addLink(int a, int b, double bandwidth, double delay);
     void initializeRoutingTables() const;
+    void populateScene(QGraphicsScene* scene);
+
 private:
     QMap<int, Node*> nodes_; // address-node
     std::vector<Link*> links_;

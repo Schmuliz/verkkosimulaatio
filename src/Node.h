@@ -7,7 +7,7 @@
 #include <QGraphicsItem>
 #include <vector>
 #include <queue>
-#include "qpainter.h"
+#include <QPainter>
 
 #define sizeconst 25
 
@@ -25,6 +25,7 @@ public:
     virtual void processPacket(Packet *packet) = 0;
 
     int getAddress() const;
+    int dummyStat() const;
 private:
     std::vector<Link*> links_;
     std::vector<Packet*> packets_;

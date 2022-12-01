@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QGraphicsScene>
 
 Node* createNodeFromJsonObject(QJsonObject obj) {
     Node* node;
@@ -118,5 +119,15 @@ void Network::addLink(int a, int b, double bandwidth, double delay) {
 void Network::initializeRoutingTables() const {
     for (auto node : nodes_) {
         node->initializeRoutingTable();
+    }
+}
+
+void Network::populateScene(QGraphicsScene *scene) {
+    // Warning! Scene also keeps it's old stuff
+    for(auto node : nodes_) {
+        scene->addItem(node);
+    }
+    for(auto link : links_) {
+        scene->addItem(link);
     }
 }

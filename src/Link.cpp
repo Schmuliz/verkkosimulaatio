@@ -1,5 +1,6 @@
 #include "Link.h"
 #include "Node.h"
+#include "qpainter.h"
 #include <QPen>
 
 Link::Link(Node* node1,
@@ -67,9 +68,8 @@ void Link::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWid
 
     painter->rotate(angle);
     painter->drawLine(sizeconst, 0, euclidian-sizeconst,0);
-//    qInfo() << "node1 pos" << node1_->pos();
-//    qInfo() << "node2 pos" << node2_->pos();
 
+    painter->drawText(QPointF(euclidian/2, -3), QString::number(dummyStat()));
 }
 
 QRectF Link::boundingRect() const {
@@ -82,3 +82,6 @@ QRectF Link::boundingRect() const {
     return QRectF(x0, y0, x1, y1);
 }
 
+int Link::dummyStat() const {
+    return rand();
+}

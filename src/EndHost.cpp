@@ -1,4 +1,5 @@
 #include "EndHost.h"
+#include "qpainter.h"
 #include <QDebug>
 
 

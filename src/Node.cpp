@@ -1,4 +1,5 @@
 #include "Node.h"
+#include <cstdlib>
 
 Node::Node(int address) :
     address_(address) {}
@@ -74,4 +75,8 @@ void Node::initializeRoutingTable() {
         }
     }
     lookupTable_ = lookupTable;
+}
+
+int Node::dummyStat() const {
+    return rand();
 }
