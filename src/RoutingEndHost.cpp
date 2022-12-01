@@ -10,7 +10,7 @@ void RoutingEndHost::processPacket(Packet *packet) {}
 
 void RoutingEndHost::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) {
     qInfo() << "trying to draw a routing endhost";
-    QPixmap routerimg(":/assets/routingendhost.png");
+    QPixmap routerimg(":/resources/routingendhost.png");
     painter->drawPixmap(0, 0, routerimg.scaled(2*sizeconst, 2*sizeconst));
 }
 

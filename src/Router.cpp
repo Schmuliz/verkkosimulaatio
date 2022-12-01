@@ -12,7 +12,7 @@ void Router::processPacket(Packet *packet) {
 
 void Router::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) {
     qInfo() << "trying to draw a router";
-    QPixmap routerimg(":/assets/router.png");
+    QPixmap routerimg(":/resources/router.png");
     painter->drawPixmap(0, 0, routerimg.scaled(2*sizeconst, 2*sizeconst));
 }
 
