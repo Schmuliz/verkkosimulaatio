@@ -14,15 +14,18 @@ Node* createNodeFromJsonObject(QJsonObject obj) {
     int address = obj["address"].toInt();
     int posx = obj["posx"].toInt();
     int posy = obj["posy"].toInt();
-    int applicationid = obj["application"].toInt();
+    QJsonArray application = obj["application"].toArray();
+    std::vector<int> applicationparams;
+    for(QJsonValue param : application) {
+        applicationparams.push_back(param.toInt());
+    }
     int routing = obj["routing"].toInt();
 
-
-    if(applicationid && routing) {
-        node = new RoutingEndHost(address, applicationid);
+    if(applicationparams[0] && routing) {
+        node = new RoutingEndHost(address, applicationparams);
     }
-    else if (applicationid) {
-        node = new EndHost(address, applicationid);
+    else if (applicationparams[0]) {
+        node = new EndHost(address, applicationparams);
     }
     else if (routing) {
         node = new Router(address);
