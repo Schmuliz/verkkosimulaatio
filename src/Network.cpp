@@ -7,6 +7,7 @@
 #include <QJsonObject>
 #include <QGraphicsScene>
 
+
 Node* createNodeFromJsonObject(QJsonObject obj) {
     Node* node;
 
@@ -15,6 +16,7 @@ Node* createNodeFromJsonObject(QJsonObject obj) {
     int posy = obj["posy"].toInt();
     int applicationid = obj["application"].toInt();
     int routing = obj["routing"].toInt();
+
 
     if(applicationid && routing) {
         node = new RoutingEndHost(address, applicationid);
