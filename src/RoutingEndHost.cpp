@@ -5,7 +5,7 @@
 
 RoutingEndHost::RoutingEndHost(int address, std::vector<int> application)
     : Router(address) {
-    // EndHost constructor show somehow be called so that application parsing take place in two places
+    // Avoid this being a duplicate implementation of std::vector application parsing
 }
 
 void RoutingEndHost::processPacket(Packet *packet) {}
