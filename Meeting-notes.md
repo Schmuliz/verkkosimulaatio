@@ -125,3 +125,42 @@ Starting implementation of classes.
 - Non-visually implement packet movement 
 - Visually implement packet movement
 - Add coordinates to objects that are to be drawn
+
+
+
+# Meeting 01.12.2021 20::15
+
+**Participants**: 
+everybody
+
+## Summary of works
+
+- GUI is now functional with steps and a play/pause button
+- the simulation is dummy-only in GUI, i.e. not really simulating based on real packets or applications
+- the lookup table generation for routing packets has been written (path finding)
+- link-class has been implemented
+- different nodes have been mostly implemented (not final)
+
+## Challenges
+
+1. Some general statistics would require a "global time", which might be difficult
+2. Inheritance between node types needs some work
+3. Slightly strapped for time
+
+## Actions
+1. Eemeli will continue working on the GUI
+2. Joonas, Tuomo and Samuli continue with core logic 
+
+
+## Project status 
+The core logic and GUI are coming along but neither is finished. The project
+is challenging and we are perhaps slightly behind schedule, however we do 
+think all requirements will be met by deadline. 
+
+
+### TODOs
+1. Finish Nodes & inheritance
+2. Finish abstract class Application
+3. Write 1-2 concrete applications
+4. Add non-routing end host situation to lookup table generation logic
+5. Continue GUI work in several different classes

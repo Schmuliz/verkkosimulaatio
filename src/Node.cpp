@@ -3,7 +3,9 @@
 #include <cstdlib>
 
 Node::Node(int address) :
-    address_(address) {}
+    address_(address) {
+    setAcceptHoverEvents(true);
+}
 
 void Node::runOneTick() {
     if (!packets_.empty()) {
@@ -83,4 +85,8 @@ void Node::initializeRoutingTable() {
 
 int Node::dummyStat() const {
     return rand();
+}
+
+void Node::hoverMoveEvent(QGraphicsSceneHoverEvent *event) {
+    setToolTip(QString::number(address_));
 }

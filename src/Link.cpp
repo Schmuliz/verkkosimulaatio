@@ -57,7 +57,6 @@ const double Link::getTransmissionSpeed() const { return transmissionSpeed_; }
 const double Link::getPropagationDelay() const { return propagationDelay_; }
 
 void Link::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) {
-    qInfo() << "trying to draw a link";
     painter->setPen(QPen(Qt::black, 3));    // make the link line thicker
     painter->translate(node1_->pos()); // set origin to node1
     QPointF diff = node2_->pos() - node1_->pos();
