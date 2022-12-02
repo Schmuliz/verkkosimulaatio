@@ -1,9 +1,5 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "EndHost.h"
-#include "Router.h"
-#include "RoutingEndHost.h"
-#include "Node.h"
 #include "SimulationThread.h"
 #include <QFileDialog>
 #include <QDebug> // qDebug() is cursed, use qInfo() or higher
@@ -18,20 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     Scene = new QGraphicsScene(this);
     ui->networkView->setScene(Scene);
 
-    network_ = new Network();
-
-    // example render
-    Node *g1 = new Router(123);            g1->setPos(100, 200);
-    Node *g2 = new EndHost(124, 1);        g2->setPos(-100,100);
-    Node *g3 = new RoutingEndHost(125, 1); g3->setPos(200,000);
-
-    network_->addNode(g1);
-    network_->addNode(g2);
-    network_->addNode(g3);
-
-    network_->addLink(123, 124, 1, 1);
-    network_->addLink(123, 125, 1, 1);
-
+    network_ = new Network(":/resources/network.json");
     network_->populateScene(Scene);
 
     Scene->addEllipse(-5, -5, 10, 10); // center of the universe indicator

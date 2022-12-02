@@ -3,5 +3,6 @@
         <file>resources/endhost.png</file>
         <file>resources/router.png</file>
         <file>resources/routingendhost.png</file>
+        <file>resources/network.json</file>
     </qresource>
 </RCC>
