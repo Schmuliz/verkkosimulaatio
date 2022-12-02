@@ -4,7 +4,7 @@
 
 
 RoutingEndHost::RoutingEndHost(int address, int applicationId)
-    : Router(address), application_(new TestApplication) {}
+    : Router(address), application_(new SimpleApplication(std::vector<int>{0, 1, 2}, 5)) {}
 
 void RoutingEndHost::processPacket(Packet *packet) {}
 

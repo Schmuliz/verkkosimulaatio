@@ -1,21 +1,25 @@
 #include "Application.h"
-#include <iostream>
 
 //Application
 
+Application::Application(std::vector<int> destinationAddresses, int transmissionInterval)
+    : destinationAddresses_(destinationAddresses), transmissionInterval_(transmissionInterval) {}
+
 //TestApplication
 
-TestApplication::TestApplication(){}
+SimpleApplication::SimpleApplication(std::vector<int> destinationAddresses, int transmissionInterval)
+    : Application(destinationAddresses, transmissionInterval) {}
 
-Packet* TestApplication::packetGenerator(int packetId, int source, int destination) {
-    if (counter_ == 100) {
+Packet* SimpleApplication::packetGenerator(int source) {
+    if (counter_ == transmissionInterval_) {
         counter_ = 0;
+
+        int packetDestination = rand() % destinationAddresses_.size();
+        Packet* p = new Packet(source, packetDestination, 10, 0);
+        return p;
     }
     counter_++;
-
-    std::cout << "Hello" << std::endl;
-    Packet* p = new Packet(packetId, source, destination, 10, 0);
-    return p;
+    return nullptr;
 }
 
 /*

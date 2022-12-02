@@ -4,7 +4,7 @@
 
 
 EndHost::EndHost(int address, int applicationid)
-    : Node(address), application_(new TestApplication) {}
+    : Node(address), application_(new SimpleApplication(std::vector<int>{0, 1, 2}, 5)) {}
 
 void EndHost::processPacket(Packet *packet) {}
 

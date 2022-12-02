@@ -2,23 +2,32 @@
 #define APPLICATION_H
 
 #include "Packet.h"
+#include <vector>
+#include <cstdlib>
 
 class Application
 {
 public:
-    Application(){}
+    Application(std::vector<int> destinationAddresses, int transmissionInterval);
     ~Application(){}
-    virtual Packet* packetGenerator(int, int, int) = 0;
-private:
-    double transmissionInterval;
+
+    /**
+     * @brief Virtual function that is called on every tick and
+     * returns a pointer to a Packet if one is generated
+     * or nullptr if no packet is generated.
+     */
+    virtual Packet* packetGenerator(int) = 0;
+protected:
+    std::vector<int> destinationAddresses_;
+    int transmissionInterval_;
 };
 
-class TestApplication : public Application
+class SimpleApplication : public Application
 {
 public:
-    TestApplication();
-    ~TestApplication(){}
-    Packet* packetGenerator(int, int, int);
+    SimpleApplication(std::vector<int> destinationAddresses, int transmissionInterval);
+    ~SimpleApplication(){}
+    Packet* packetGenerator(int source);
 private:
     int counter_ = 0;
 };
