@@ -3,8 +3,11 @@
 #include <QDebug>
 
 
-RoutingEndHost::RoutingEndHost(int address, int applicationid)
-    : Router(address), application_(applicationid) {}
+RoutingEndHost::RoutingEndHost(int address, std::vector<int> application)
+    : Router(address) {
+    //construct application
+    //applicaiton.at(0) defines application type, rest are params
+}
 
 void RoutingEndHost::processPacket(Packet *packet) {}
 

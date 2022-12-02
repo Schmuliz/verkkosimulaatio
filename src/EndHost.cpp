@@ -3,8 +3,21 @@
 #include <QDebug>
 
 
-EndHost::EndHost(int address, int applicationid)
-    : Node(address), application_(applicationid) {}
+/**
+ * @brief EndHost constructor
+ *
+ * @param address network address
+ * @param application vector of variable length that defines a application. First item defines application type, rest are application specific parameters
+ */
+EndHost::EndHost(int address, std::vector<int> application)
+    : Node(address) {
+    int appid = application.at(0); // always safe to read
+    if(appid == 1) {
+        //application_ = new app1(...)
+    } else {
+        throw "unkown appid";
+    }
+}
 
 void EndHost::processPacket(Packet *packet) {}
 

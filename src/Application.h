@@ -7,7 +7,8 @@
 class Application
 {
 public:
-    Application(int id);
+    Application() {}; // delete me during AppType1 implementation
+    Application(int id); // also me, this is supposed to be abstract class
     Packet* packet_generator();
 private:
     double transmission_interval;
