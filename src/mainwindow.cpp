@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "SimulationThread.h"
+#include "Application.h"
 #include <QFileDialog>
 #include <QDebug> // qDebug() is cursed, use qInfo() or higher
 
