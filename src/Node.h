@@ -26,6 +26,8 @@ public:
 
     int getAddress() const;
     int dummyStat() const;
+
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
 private:
     std::vector<Link*> links_;
     std::vector<Packet*> packets_;
