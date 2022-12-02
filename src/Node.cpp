@@ -9,16 +9,22 @@ Node::Node(int address) :
 
 void Node::runOneTick() {
     if (!packets_.empty()) {
-        int dst = packets_.front()->destinationAddress;
+        for (auto packet : packets_) { // increase age of every packet in the node
+            packet->runOneTick();
+        }
+
+        Packet* packet = packets_.front();
+        int dst = packet->destinationAddress;
 
         if (dst == address_) {
-            this->processPacket(packets_.front());
+            lastPacketAge_ = packet->getAge();
+            this->processPacket(packet);
             packets_.erase(packets_.begin());
             return;
         }
 
         Link* destinationLink = lookupTable_[dst];
-        if (destinationLink->receive(packets_.front())) {
+        if (destinationLink->receive(packet)) {
             packets_.erase(packets_.begin());
         }
     }
@@ -86,6 +92,8 @@ void Node::initializeRoutingTable() {
 int Node::dummyStat() const {
     return rand();
 }
+
+int Node::getLastPacketAge() const { return lastPacketAge_; }
 
 void Node::hoverMoveEvent(QGraphicsSceneHoverEvent *event) {
     setToolTip(QString::number(address_));

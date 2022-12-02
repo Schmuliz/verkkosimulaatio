@@ -21,6 +21,7 @@ void Link::runOneTick() {
     if (std::size(packets_) > 0) {
         // advance packets
         for (auto packet : packets_) {
+            packet->runOneTick();
             packet->transmitted += 1 / propagationDelay_;
         }
         // if the first packet in the queue is transmitted, move it to the next node
@@ -47,6 +48,7 @@ void Link::receivePackets() {
             inTransmission_ = nullptr;
         }
         else {
+            inTransmission_->runOneTick();
             inTransmission_->received += transmissionSpeed_ / inTransmission_->size;
         }
     }

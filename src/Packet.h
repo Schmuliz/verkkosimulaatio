@@ -6,14 +6,16 @@
 class Packet /*: public QGraphicsItem */
 {
 public:
-    Packet(int source, int destination, int size, int age);
-    void runOneTick() {} // not used for anything right now
+    Packet(int source, int destination, int size);
+    void runOneTick();
     const int sourceAddress;
     const int destinationAddress;
     const int size;
-    const int age;
-    double transmitted;
-    double received;
+    int getAge() const;
+    double transmitted = 0.0;
+    double received = 0.0;
+private:
+    int age_ = 0;
 };
 
 #endif // PACKET_H

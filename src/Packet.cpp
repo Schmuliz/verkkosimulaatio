@@ -1,5 +1,9 @@
 #include "Packet.h"
 
-Packet::Packet(int source, int destination, int size, int age)
+Packet::Packet(int source, int destination, int size)
     : sourceAddress(source), destinationAddress(destination),
-      size(size), age(age), transmitted(0.0), received(0.0) {}
+      size(size) {}
+
+void Packet::runOneTick() { age_++; }
+
+int Packet::getAge() const { return age_; }

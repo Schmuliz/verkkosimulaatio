@@ -26,6 +26,7 @@ public:
 
     int getAddress() const;
     int dummyStat() const;
+    int getLastPacketAge() const;
 
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
 private:
@@ -35,6 +36,7 @@ private:
     std::vector<Packet*> received_;
     std::map<int, Link*> lookupTable_;
     Network* network_;
+    int lastPacketAge_ = 0;
 };
 
 #endif // NODE_H
