@@ -3,7 +3,6 @@
 #include <QDebug>
 
 
-
 RoutingEndHost::RoutingEndHost(int address, std::vector<int> application)
     : Router(address) {
     // EndHost constructor show somehow be called so that application parsing take place in two places

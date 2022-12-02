@@ -20,6 +20,7 @@ public:
 protected:
     std::vector<int> destinationAddresses_;
     int transmissionInterval_;
+
 };
 
 class SimpleApplication : public Application
