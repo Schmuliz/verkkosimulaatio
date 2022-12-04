@@ -1,10 +1,11 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "SimulationThread.h"
-#include "Application.h"
+#include <QSlider>
+#include <QLCDNumber>
 #include <QFileDialog>
 #include <QDebug> // qDebug() is cursed, use qInfo() or higher
-
+#include <QPushButton>
+#include <QDoubleSpinBox>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -12,6 +13,15 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+//    connect(ui->doubleSpinBox,
+//            static_cast<void (QSlider::*)(int)>(&QSlider::valueChanged),
+//            ui->lcdNumber,
+//            static_cast<void (QLCDNumber::*)(int)>(&QLCDNumber::display)
+//            ); // connect the lcd and slider
+    connect(ui->pushButton,
+            &QPushButton::clicked,
+            ui->doubleSpinBox,
+            [=](){ ui->doubleSpinBox->setEnabled( !ui->pushButton->isEnabled()); });
     Scene = new QGraphicsScene(this);
     ui->networkView->setScene(Scene);
 
@@ -21,15 +31,13 @@ MainWindow::MainWindow(QWidget *parent)
     Scene->addEllipse(-5, -5, 10, 10); // center of the universe indicator
 
     network_->initializeRoutingTables();
-    simthread_ = new SimulationThread(this, network_, Scene);
-
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
     delete network_;
-    delete simthread_;
+    //simthread_->quit(); // how to kill the thread, need to modify simulation loop to accpet immidiate on demand signals. It can't wait simulation delay to handle the signals!
 }
 
 
@@ -65,15 +73,17 @@ void MainWindow::on_pushButton_2_clicked()
     Scene->update();
 }
 
+void MainWindow::timerEvent(QTimerEvent *event) {
+    qInfo() << "timer event triggered";
+    ui->networkView->scene()->update();
+}
 
 void MainWindow::on_pushButton_clicked(bool checked)
 {
-    qInfo() << "play-pause checked  " << checked;
-
     if(checked) {
-        simthread_->start();
+        simulationtimerid_ = startTimer(1000);
     } else {
-
+        killTimer(simulationtimerid_);
     }
 }
 
