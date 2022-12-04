@@ -8,7 +8,15 @@ RoutingEndHost::RoutingEndHost(int address, std::vector<int> application)
     // Avoid this being a duplicate implementation of std::vector application parsing
 }
 
-void RoutingEndHost::processPacket(Packet *packet) {}
+
+void RoutingEndHost::processPacket(Packet *packet) {
+    auto newlyReceived = std::vector<Packet*>{packet};
+    std::vector<Packet*> toBeSent = application_->packetGenerator(address_, newlyReceived);
+    for (auto newPacket : toBeSent) {
+        packets_.push_back(newPacket);
+    }
+    delete packet;
+}
 
 
 void RoutingEndHost::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) {

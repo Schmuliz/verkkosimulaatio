@@ -19,7 +19,30 @@ EndHost::EndHost(int address, std::vector<int> application)
     }
 }
 
-void EndHost::processPacket(Packet *packet) {}
+void EndHost::runOneTick() {
+    if (!packets_.empty()) {
+        // Unlike other nodes, non-routing end hosts process all packets
+        this->processPacket(packets_.front());
+        packets_.erase(packets_.begin());
+        return;
+    }
+}
+
+void EndHost::processPacket(Packet *packet) {
+    int dst = packets_.front()->destinationAddress;
+
+    // If this is not the correct destination, packet is destroyed
+    if (dst != address_) {
+        delete packet;
+    } else {
+        auto newlyReceived = std::vector<Packet*>{packet};
+        std::vector<Packet*> toBeSent = application_->packetGenerator(address_, newlyReceived);
+        for (auto newPacket : toBeSent) {
+            packets_.push_back(newPacket);
+        }
+        delete packet;
+    }
+}
 
 
 void EndHost::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) {

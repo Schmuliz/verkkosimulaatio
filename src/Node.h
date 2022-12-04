@@ -4,6 +4,7 @@
 #include "Link.h"
 #include "Packet.h"
 #include "Network.h"
+#include "Application.h"
 #include <QGraphicsItem>
 #include <vector>
 #include <queue>
@@ -18,7 +19,7 @@ public:
     Node(int address);
     ~Node(){}
 
-    void runOneTick();
+    virtual void runOneTick() = 0;
     void receive(Packet* packet);
     void receivePackets();
     void initializeRoutingTable();
@@ -28,13 +29,14 @@ public:
     int dummyStat() const;
 
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
-private:
+protected:
     std::vector<Link*> links_;
     std::vector<Packet*> packets_;
     int address_;
     std::vector<Packet*> received_;
     std::map<int, Link*> lookupTable_;
     Network* network_;
+    Application* application_;
 };
 
 #endif // NODE_H
