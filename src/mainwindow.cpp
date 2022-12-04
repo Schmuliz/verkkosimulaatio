@@ -76,7 +76,7 @@ void MainWindow::on_pushButton_2_clicked()
 }
 
 void MainWindow::timerEvent(QTimerEvent *event) {
-    qInfo() << "timer event triggered";
+    network_->runOneTick();
     ui->networkView->scene()->update();
 }
 

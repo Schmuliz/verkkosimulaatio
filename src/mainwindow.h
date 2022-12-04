@@ -32,7 +32,6 @@ private slots:
     void on_pushButton_clicked(bool checked);
 
     void invSimState(bool state) {
-        qInfo() << "hey from inv slot";
         emit invSimSignal(!state);
     };
 
