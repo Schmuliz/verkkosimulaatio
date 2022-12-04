@@ -9,6 +9,7 @@ class EndHost : public Node
 public:
     EndHost(int address, std::vector<int> application);
     ~EndHost(){}
+    void runOneTick() override;
     void processPacket(Packet *packet) override;
     void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;
     QRectF boundingRect() const override;

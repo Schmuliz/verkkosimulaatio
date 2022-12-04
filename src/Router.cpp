@@ -7,8 +7,25 @@
 Router::Router(int address)
     : Node(address) {}
 
-void Router::processPacket(Packet *packet) {
+void Router::runOneTick() {
+    if (!packets_.empty()) {
+        int dst = packets_.front()->destinationAddress;
 
+        if (dst == address_) {
+            this->processPacket(packets_.front());
+            packets_.erase(packets_.begin());
+            return;
+        }
+
+        Link* destinationLink = lookupTable_[dst];
+        if (destinationLink->receive(packets_.front())) {
+            packets_.erase(packets_.begin());
+        }
+    }
+}
+
+void Router::processPacket(Packet *packet) {
+    delete packet;
 }
 
 void Router::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) {
