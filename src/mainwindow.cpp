@@ -13,15 +13,17 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-//    connect(ui->doubleSpinBox,
-//            static_cast<void (QSlider::*)(int)>(&QSlider::valueChanged),
-//            ui->lcdNumber,
-//            static_cast<void (QLCDNumber::*)(int)>(&QLCDNumber::display)
-//            ); // connect the lcd and slider
+
     connect(ui->pushButton,
             &QPushButton::clicked,
+            this,
+            &MainWindow::invSimState);
+    connect(this,
+            static_cast<void (MainWindow::*)(bool)>(&MainWindow::invSimSignal),
             ui->doubleSpinBox,
-            [=](){ ui->doubleSpinBox->setEnabled( !ui->pushButton->isEnabled()); });
+            static_cast<void (QDoubleSpinBox::*)(bool)>(&QDoubleSpinBox::setEnabled) );
+
+
     Scene = new QGraphicsScene(this);
     ui->networkView->setScene(Scene);
 
@@ -81,7 +83,7 @@ void MainWindow::timerEvent(QTimerEvent *event) {
 void MainWindow::on_pushButton_clicked(bool checked)
 {
     if(checked) {
-        simulationtimerid_ = startTimer(1000);
+        simulationtimerid_ = startTimer(ui->doubleSpinBox->value()*1000);
     } else {
         killTimer(simulationtimerid_);
     }

@@ -16,6 +16,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+signals:
+    void invSimSignal(bool state);
 
 protected:
     void timerEvent(QTimerEvent *event) override;
@@ -28,6 +30,11 @@ private slots:
     void on_pushButton_2_clicked();
 
     void on_pushButton_clicked(bool checked);
+
+    void invSimState(bool state) {
+        qInfo() << "hey from inv slot";
+        emit invSimSignal(!state);
+    };
 
 private:
     Ui::MainWindow *ui;
