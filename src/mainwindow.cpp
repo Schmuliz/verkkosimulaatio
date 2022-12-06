@@ -7,7 +7,10 @@
 #include <QPushButton>
 #include <QDoubleSpinBox>
 
-
+/**
+ * @brief MainWindow::MainWindow constructs Qt MainWindow
+ * @param parent parent relation to other widgets
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -39,7 +42,6 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete network_;
-    //simthread_->quit(); // how to kill the thread, need to modify simulation loop to accpet immidiate on demand signals. It can't wait simulation delay to handle the signals!
 }
 
 
@@ -83,7 +85,8 @@ void MainWindow::timerEvent(QTimerEvent *event) {
 void MainWindow::on_pushButton_clicked(bool checked)
 {
     if(checked) {
-        simulationtimerid_ = startTimer(ui->doubleSpinBox->value()*1000);
+        qreal inversemsec = 1L/ui->doubleSpinBox->value()*1000;
+        simulationtimerid_ = startTimer(inversemsec);
     } else {
         killTimer(simulationtimerid_);
     }

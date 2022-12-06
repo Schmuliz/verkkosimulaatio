@@ -10,7 +10,7 @@
 #include <queue>
 #include <QPainter>
 
-#define sizeconst 25
+constexpr double sizeconst = 25;
 
 
 class Node : public QGraphicsItem
@@ -29,7 +29,12 @@ public:
     int dummyStat() const;
 
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    QRectF boundingRect() const override { return QRectF(-sizeconst, -sizeconst, sizeconst*2, sizeconst*2); }
+
 protected:
+    void drawTopText(QPainter*, QString);
+    void drawBottomText(QPainter*, QString);
+
     std::vector<Link*> links_;
     std::vector<Packet*> packets_;
     int address_;
