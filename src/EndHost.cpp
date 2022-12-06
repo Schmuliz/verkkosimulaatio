@@ -35,9 +35,8 @@ void EndHost::processPacket(Packet *packet) {
     if (dst != address_) {
         delete packet;
     } else {
-        auto newlyReceived = std::vector<Packet*>{packet};
-        std::vector<Packet*> toBeSent = application_->packetGenerator(address_, newlyReceived);
-        for (auto newPacket : toBeSent) {
+        Packet* newPacket = application_->packetGenerator(address_, packet);
+        if (newPacket != nullptr) {
             packets_.push_back(newPacket);
         }
         delete packet;

@@ -21,7 +21,7 @@ public:
      * or an empty vector if none were created
      * @param source: address of the node that is creating the packet
      */
-    virtual std::vector<Packet*> packetGenerator(int source, std::vector<Packet*> receivedPackets) = 0;
+    virtual Packet* packetGenerator(int source, Packet* currentPacket) = 0;
 protected:
     std::vector<int> destinationAddresses_;
     int transmissionInterval_;
@@ -36,7 +36,7 @@ class SimpleApplication : public Application
 public:
     SimpleApplication(std::vector<int> destinationAddresses, int transmissionInterval);
     ~SimpleApplication(){}
-    std::vector<Packet*> packetGenerator(int source, std::vector<Packet*> receivedPackets) override;
+    Packet* packetGenerator(int source, Packet* currentPacket);
 private:
     int counter_;
 };
@@ -51,7 +51,7 @@ class BurstApplication : public Application
 public:
     BurstApplication(std::vector<int> destinationAddresses, int transmissionInterval);
     ~BurstApplication(){}
-    std::vector<Packet*> packetGenerator(int source, std::vector<Packet*> receivedPackets);
+    Packet* packetGenerator(int source, Packet* currentPacket);
 private:
     /**
       *@brief currentDestination_ is the address of the node
@@ -71,7 +71,7 @@ class RespondingApplication : public Application
 public:
     RespondingApplication(std::vector<int> destinationAddresses, int transmissionInterval);
     ~RespondingApplication(){}
-    std::vector<Packet*> packetGenerator(int source, std::vector<Packet*> receivedPackets);
+    Packet* packetGenerator(int source, Packet* currentPacket);
 };
 
 /**
@@ -82,7 +82,7 @@ class ReceivingApplication : public Application
 {
     ReceivingApplication(std::vector<int> destinationAddresses, int transmissionInterval);
     ~ReceivingApplication(){}
-    std::vector<Packet*> packetGenerator(int source, std::vector<Packet*> receivedPackets);
+    Packet* packetGenerator(int source, Packet* currentPacket);
 };
 
 
