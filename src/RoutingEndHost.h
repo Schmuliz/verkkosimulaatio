@@ -12,7 +12,6 @@ public:
     ~RoutingEndHost(){}
     void processPacket(Packet *packet) override;
     void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;
-    QRectF boundingRect() const override;
 
 private:
     Application* application_;

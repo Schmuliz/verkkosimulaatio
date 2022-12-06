@@ -17,14 +17,15 @@ void RoutingEndHost::processPacket(Packet *packet) {
     delete packet;
 }
 
-
+/**
+ * @brief RoutingEndHost::paint paints routingendhost specific
+ * @param painter qt painter
+ * @param option unused qt stuff
+ * @param widget unused qt stuff
+ */
 void RoutingEndHost::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) {
     qInfo() << "trying to draw a routing endhost";
     QPixmap routerimg(":/resources/routingendhost.png");
     painter->drawPixmap(-sizeconst, -sizeconst, routerimg.scaled(2*sizeconst, 2*sizeconst));
-}
-
-
-QRectF RoutingEndHost::boundingRect() const {
-    return QRectF(-sizeconst, -sizeconst, sizeconst, sizeconst);
+    drawTopText(painter, "1234");
 }

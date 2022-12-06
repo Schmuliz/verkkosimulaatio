@@ -13,7 +13,6 @@ public:
     void processPacket(Packet *packet) override;
     void runOneTick() override;
     void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;
-    QRectF boundingRect() const override;
 
 private:
     void nexthop(Packet* packet);

@@ -2,6 +2,7 @@
 #include "Router.h"
 #include <cstdlib>
 
+
 Node::Node(int address) :
     address_(address) {
     setAcceptHoverEvents(true);
@@ -18,6 +19,10 @@ void Node::receivePackets() {
     }
 }
 
+/**
+ * @brief Node::getAddress returns node's address
+ * @return  the integer address
+ */
 int Node::getAddress() const {
     return address_;
 }
@@ -66,10 +71,44 @@ void Node::initializeRoutingTable() {
     lookupTable_ = lookupTable;
 }
 
+/**
+ * @brief Node::dummyStat returns random integer from node's scope
+ * @return the random integer
+ */
 int Node::dummyStat() const {
     return rand();
 }
 
 void Node::hoverMoveEvent(QGraphicsSceneHoverEvent *event) {
     setToolTip(QString::number(address_));
+}
+
+/**
+ * @brief Node::drawTopText draw text in a box above the node
+ * @param painter qpainter to use
+ * @param text qstring of the text
+ */
+void Node::drawTopText(QPainter* painter, QString text) {
+    QRectF bottomrect(-sizeconst, sizeconst, sizeconst*2, sizeconst*2/3);
+    bottomrect.translate(QPointF(0, 2));
+    painter->fillRect(bottomrect, Qt::white);
+    painter->setPen(QPen(Qt::black));
+    painter->drawRect(bottomrect);
+    painter->drawText(bottomrect, Qt::AlignCenter, text);
+}
+
+/**
+ * @brief Node::drawBottomText draw text in a box below the node
+ * @param painter qpainter to use
+ * @param text qstring of the text
+ */
+void Node::drawBottomText(QPainter* painter, QString text) {
+
+    // top text box
+    QRectF toprect(-sizeconst, -sizeconst*5/3, sizeconst*2, sizeconst*2/3);
+    toprect.translate(QPointF(0, -2));
+    painter->fillRect(toprect, Qt::white);
+    painter->setPen(QPen(Qt::black));
+    painter->drawRect(toprect);
+    painter->drawText(toprect, Qt::AlignCenter, text);
 }

@@ -7,7 +7,11 @@
 #include <QJsonObject>
 #include <QGraphicsScene>
 
-
+/**
+ * @brief createNodeFromJsonObject Parses QJsonObject for a node
+ * @param obj The QJsonObject
+ * @return returns pointer to the created node
+ */
 Node* createNodeFromJsonObject(QJsonObject obj) {
     Node* node;
 
@@ -128,11 +132,10 @@ void Network::initializeRoutingTables() const {
 }
 
 void Network::populateScene(QGraphicsScene *scene) {
-    // Warning! Scene also keeps it's old stuff
-    for(auto node : nodes_) {
-        scene->addItem(node);
-    }
     for(auto link : links_) {
         scene->addItem(link);
+    }
+    for(auto node : nodes_) {
+        scene->addItem(node);
     }
 }
