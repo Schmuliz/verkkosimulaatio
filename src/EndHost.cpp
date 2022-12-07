@@ -42,6 +42,6 @@ void EndHost::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, Q
     qInfo() << "trying to draw a endhost";
     QPixmap routerimg(":/resources/endhost.png");
     painter->drawPixmap(-sizeconst, -sizeconst, routerimg.scaled(2*sizeconst, 2*sizeconst));
-    drawTopText(painter, QString::number(getBufferSize()));
-    drawBottomText(painter, QString::number(getLastPacketAge()));
+    drawTopText(painter, QString::number(getLastPacketAge()));
+    drawBottomText(painter, QString::number(getBufferSize()));
 }

@@ -24,6 +24,6 @@ void Router::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QW
     QPixmap routerimg(":/resources/router.png");
     painter->drawPixmap(-sizeconst, -sizeconst, routerimg.scaled(2*sizeconst, 2*sizeconst)); // draw the raster
 
-    drawTopText(painter, QString::number(getBufferSize()));
+    drawBottomText(painter, QString::number(getBufferSize()));
 
 }

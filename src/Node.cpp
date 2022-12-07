@@ -125,20 +125,6 @@ void Node::hoverMoveEvent(QGraphicsSceneHoverEvent *event) {
  * @param text qstring of the text
  */
 void Node::drawTopText(QPainter* painter, QString text) {
-    QRectF bottomrect(-sizeconst, sizeconst, sizeconst*2, sizeconst*2/3);
-    bottomrect.translate(QPointF(0, 2));
-    painter->fillRect(bottomrect, Qt::white);
-    painter->setPen(QPen(Qt::black));
-    painter->drawRect(bottomrect);
-    painter->drawText(bottomrect, Qt::AlignCenter, text);
-}
-
-/**
- * @brief Node::drawBottomText draw text in a box below the node
- * @param painter qpainter to use
- * @param text qstring of the text
- */
-void Node::drawBottomText(QPainter* painter, QString text) {
 
     // top text box
     QRectF toprect(-sizeconst, -sizeconst*5/3, sizeconst*2, sizeconst*2/3);
@@ -147,4 +133,18 @@ void Node::drawBottomText(QPainter* painter, QString text) {
     painter->setPen(QPen(Qt::black));
     painter->drawRect(toprect);
     painter->drawText(toprect, Qt::AlignCenter, text);
+}
+
+/**
+ * @brief Node::drawBelowText draw text in a box below the node
+ * @param painter qpainter to use
+ * @param text qstring of the text
+ */
+void Node::drawBottomText(QPainter* painter, QString text) {
+    QRectF bottomrect(-sizeconst, sizeconst, sizeconst*2, sizeconst*2/3);
+    bottomrect.translate(QPointF(0, 2));
+    painter->fillRect(bottomrect, Qt::white);
+    painter->setPen(QPen(Qt::black));
+    painter->drawRect(bottomrect);
+    painter->drawText(bottomrect, Qt::AlignCenter, text);
 }

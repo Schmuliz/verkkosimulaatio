@@ -23,5 +23,6 @@ void RoutingEndHost::paint(QPainter *painter, QStyleOptionGraphicsItem const *op
     qInfo() << "trying to draw a routing endhost";
     QPixmap routerimg(":/resources/routingendhost.png");
     painter->drawPixmap(-sizeconst, -sizeconst, routerimg.scaled(2*sizeconst, 2*sizeconst));
-    drawTopText(painter, "1234");
+    drawTopText(painter, QString::number(getLastPacketAge()));
+    drawBottomText(painter, QString::number(getBufferSize()));
 }
