@@ -44,6 +44,17 @@ public:
     const double getTransmissionSpeed() const;
     const double getPropagationDelay() const;
 
+    /**
+     * @brief getCumulativeThroughput
+     * @return amount of bits that have gone through this link
+     */
+    int getCumulativeThroughput() const;
+    /**
+     * @brief getUtilization
+     * @return percentage of the link throughput that is currently used (1.0 = 100%)
+     */
+    double getUtilization() const;
+
     // virtual mehtods inherited from Qt that must be implemented
     QRectF boundingRect() const override;
     void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;
@@ -56,6 +67,22 @@ private:
     Node* node2_;
     QQueue<Packet*> packets_;
     Packet* inTransmission_ = nullptr;
+
+    /**
+     * @brief maxThroughput_, theoretical maximum amount of bits in the link
+     */
+    double maxThroughput_;
+
+    /**
+     * @brief cumulative throughput (in bits) of packets going through the link.
+     * Packets size's are counted when when they leave the link
+     */
+    int cumulativeThroughput_ = 0;
+    /**
+     * @brief current throughput (in bits) of packets in the link.
+     * The packet in inTransmission_ is also counted
+     */
+    int currentThroughput_ = 0;
 };
 
 #endif // LINK_H

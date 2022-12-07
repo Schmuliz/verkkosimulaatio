@@ -6,9 +6,9 @@
 Link::Link(Node* node1,
            Node* node2,
            double transmissionSpeed,
-           double propagationDelay)
-    : node1_(node1), node2_(node2), transmissionSpeed_(transmissionSpeed),
-      propagationDelay_(propagationDelay) {}
+           double propagationDelay) :
+    node1_(node1), node2_(node2), transmissionSpeed_(transmissionSpeed),
+    propagationDelay_(propagationDelay), maxThroughput_(transmissionSpeed * propagationDelay) {}
 
 Link::~Link() {
     for (auto packet : packets_) {
@@ -27,6 +27,8 @@ void Link::runOneTick() {
         // if the first packet in the queue is transmitted, move it to the next node
         if (packets_.head()->transmitted >= 1) {
             packets_.head()->transmitted = 0;
+            cumulativeThroughput_ += packets_.head()->size; // increase cumulative throughput
+            currentThroughput_ -= packets_.head()->size; // decrease current throughput
             node2_->receive(packets_.dequeue());
         }
     }
@@ -35,6 +37,7 @@ void Link::runOneTick() {
 int Link::receive(Packet* packet) {
     if (inTransmission_ == nullptr) {
         inTransmission_ = packet;
+        currentThroughput_ += packet->size; // increase current throughput
         return 1;
     }
     else return 0;
@@ -86,3 +89,6 @@ QRectF Link::boundingRect() const {
 int Link::dummyStat() const {
     return rand();
 }
+
+int Link::getCumulativeThroughput() const { return cumulativeThroughput_; }
+double Link::getUtilization() const { return currentThroughput_ / maxThroughput_; }
