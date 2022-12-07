@@ -13,7 +13,9 @@ EndHost::EndHost(int address, std::vector<int> application)
     : Node(address) {
     int appid = application.at(0); // always safe to read
     if(appid == 1) {
-        application_ = new SimpleApplication(std::vector<int>{1,2,3}, 5); //TODO parse parameters from vector
+        std::vector<int> destPart(application.begin()+3, application.end());
+        application_ = new SimpleApplication(destPart,
+                                             application.back() ); //TODO parse parameters from vector
     } else {
         throw "unkown appid";
     }
