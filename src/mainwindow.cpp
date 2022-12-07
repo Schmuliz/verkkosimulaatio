@@ -75,12 +75,13 @@ void MainWindow::on_actionLoad_Simulation_triggered()
  */
 void MainWindow::on_pushButton_2_clicked()
 {
+    network_->runOneTick();
     scene_->update();
 }
 
 void MainWindow::timerEvent(QTimerEvent *event) {
     network_->runOneTick();
-    ui->networkView->scene()->update();
+    scene_->update();
 }
 
 void MainWindow::on_pushButton_clicked(bool checked)
