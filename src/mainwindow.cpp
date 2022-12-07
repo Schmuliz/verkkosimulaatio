@@ -27,13 +27,14 @@ MainWindow::MainWindow(QWidget *parent)
             static_cast<void (QDoubleSpinBox::*)(bool)>(&QDoubleSpinBox::setEnabled) );
 
 
-    Scene = new QGraphicsScene(this);
-    ui->networkView->setScene(Scene);
+    scene_ = new QGraphicsScene(this);
+    scene_->setBackgroundBrush(Qt::white);
+    ui->networkView->setScene(scene_);
 
     network_ = new Network(":/resources/network.json");
-    network_->populateScene(Scene);
+    network_->populateScene(scene_);
 
-    Scene->addEllipse(-5, -5, 10, 10); // center of the universe indicator
+    scene_->addEllipse(-5, -5, 10, 10); // center of the universe indicator
 
     network_->initializeRoutingTables();
 }
@@ -74,7 +75,7 @@ void MainWindow::on_actionLoad_Simulation_triggered()
  */
 void MainWindow::on_pushButton_2_clicked()
 {
-    Scene->update();
+    scene_->update();
 }
 
 void MainWindow::timerEvent(QTimerEvent *event) {

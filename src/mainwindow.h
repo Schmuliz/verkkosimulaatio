@@ -37,7 +37,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QGraphicsScene *Scene;
+    QGraphicsScene *scene_;
     Network *network_;
     qint64 simulationtimerid_;
 };
