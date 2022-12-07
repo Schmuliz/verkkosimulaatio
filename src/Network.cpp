@@ -117,6 +117,13 @@ void Network::addNode(Node *node) {
     nodes_.insert(node->getAddress(), node);
 }
 
+/**
+ * @brief Network::addLink adds link to the netowrk based on addresses, populates node's links_ information
+ * @param a node a address
+ * @param b node b address
+ * @param bandwidth link bandwidth
+ * @param delay link delay
+ */
 void Network::addLink(int a, int b, double bandwidth, double delay) {
     // lookup nodes based on address
     Node* hosta = nodes_[a];
@@ -129,12 +136,19 @@ void Network::addLink(int a, int b, double bandwidth, double delay) {
     hostb->addLink(linkb);
 }
 
+/**
+ * @brief Network::initializeRoutingTables Initialize all node's routing tables.
+ */
 void Network::initializeRoutingTables() const {
     for (auto node : nodes_) {
         node->initializeRoutingTable();
     }
 }
 
+/**
+ * @brief Network::populateScene populates scene with this network
+ * @param scene QGraphicsScene to populate
+ */
 void Network::populateScene(QGraphicsScene *scene) {
     for(auto link : links_) {
         scene->addItem(link);
