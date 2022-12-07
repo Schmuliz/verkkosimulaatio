@@ -23,7 +23,7 @@ public:
     void receive(Packet* packet);
     void receivePackets();
     void initializeRoutingTable();
-    virtual void processPacket(Packet *packet) = 0;
+    virtual void processPacket(Packet *packet = nullptr) = 0;
 
     int getAddress() const;
     int dummyStat() const;

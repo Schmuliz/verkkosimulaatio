@@ -29,7 +29,7 @@ void Node::runOneTick() {
             packets_.erase(packets_.begin());
         }
     } else {
-        this->processPacket(nullptr);
+        this->processPacket();
     }
 }
 

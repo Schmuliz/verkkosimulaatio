@@ -36,7 +36,7 @@ Packet* BurstApplication::packetGenerator(int source, Packet* currentPacket) {
         return p;
     } else {
         if (counter_ == transmissionInterval_) {
-            currentDestination_ = rand() % destinationAddresses_.size();
+            currentDestination_ = destinationAddresses_[rand() % destinationAddresses_.size()];
             counter_ = 0;
             packetsLeftThisBurst_ = rand() % 3 + 3;
         }
@@ -51,6 +51,9 @@ RespondingApplication::RespondingApplication(std::vector<int> destinationAddress
     : Application(destinationAddresses, transmissionInterval) {}
 
 Packet* RespondingApplication::packetGenerator(int source, Packet* currentPacket) {
+    if (currentPacket == nullptr) {
+        return nullptr;
+    }
     if (currentPacket->destinationAddress == source) {
         Packet* p = new Packet(source, currentPacket->sourceAddress, 10);
         return p;

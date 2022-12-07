@@ -21,7 +21,7 @@ public:
      * or an empty vector if none were created
      * @param source: address of the node that is creating the packet
      */
-    virtual Packet* packetGenerator(int source, Packet* currentPacket) = 0;
+    virtual Packet* packetGenerator(int source, Packet* currentPacket = nullptr) = 0;
 protected:
     std::vector<int> destinationAddresses_;
     int transmissionInterval_;
