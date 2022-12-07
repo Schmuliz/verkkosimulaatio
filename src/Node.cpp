@@ -23,15 +23,22 @@ void Node::runOneTick() {
             return;
         }
 
+        this->processPacket(packets_.front());
         Link* destinationLink = lookupTable_[dst];
         if (destinationLink->receive(packets_.front())) {
             packets_.erase(packets_.begin());
         }
+    } else {
+        this->processPacket(nullptr);
     }
 }
 
 void Node::receive(Packet* packet) {
     packets_.push_back(packet);
+}
+
+void Node::addLink(Link* link) {
+    links_.push_back(link);
 }
 
 void Node::receivePackets() {
@@ -54,6 +61,7 @@ void Node::initializeRoutingTable() {
     std::map<int, double> distances;
     std::map<int, bool> visited;
     std::map<int, Link*> lookupTable;
+
 
     // (currenty random) constant that is added to every edge weight
     // used to incentivize routes with less hops
@@ -91,6 +99,9 @@ void Node::initializeRoutingTable() {
         }
     }
     lookupTable_ = lookupTable;
+    for (auto item : lookupTable) {
+        qInfo() << item;
+    }
 }
 
 /**

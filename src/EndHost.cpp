@@ -13,7 +13,7 @@ EndHost::EndHost(int address, std::vector<int> application)
     : Node(address) {
     int appid = application.at(0); // always safe to read
     if(appid == 1) {
-        application_ = new SimpleApplication(std::vector<int>{1,2,3}, 50); //TODO parse parameters from vector
+        application_ = new SimpleApplication(std::vector<int>{1,2,3}, 5); //TODO parse parameters from vector
     } else {
         throw "unkown appid";
     }
@@ -23,9 +23,13 @@ EndHost::EndHost(int address, std::vector<int> application)
 void EndHost::processPacket(Packet *packet) {
     Packet* newPacket = application_->packetGenerator(address_, packet);
     if (newPacket != nullptr) {
+        qInfo() << "Got a packet to send";
         packets_.push_back(newPacket);
     }
-    delete packet;
+    if (packet != nullptr && packet->destinationAddress == address_) {
+        delete packet;
+    }
+
 }
 
 /**
@@ -38,5 +42,6 @@ void EndHost::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, Q
     qInfo() << "trying to draw a endhost";
     QPixmap routerimg(":/resources/endhost.png");
     painter->drawPixmap(-sizeconst, -sizeconst, routerimg.scaled(2*sizeconst, 2*sizeconst));
-    drawBottomText(painter, "moro!");
+    drawTopText(painter, QString::number(getBufferSize()));
+    drawBottomText(painter, QString::number(getLastPacketAge()));
 }

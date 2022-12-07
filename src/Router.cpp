@@ -8,7 +8,9 @@ Router::Router(int address)
     : Node(address) {}
 
 void Router::processPacket(Packet *packet) {
-    delete packet;
+    if (packet != nullptr && packet->destinationAddress == address_){
+        delete packet;
+    }
 }
 
 /**
@@ -22,7 +24,6 @@ void Router::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QW
     QPixmap routerimg(":/resources/router.png");
     painter->drawPixmap(-sizeconst, -sizeconst, routerimg.scaled(2*sizeconst, 2*sizeconst)); // draw the raster
 
-    drawTopText(painter, "moi");
-    drawBottomText(painter, "hei");
+    drawTopText(painter, QString::number(getBufferSize()));
 
 }

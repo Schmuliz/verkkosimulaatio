@@ -121,8 +121,12 @@ void Network::addLink(int a, int b, double bandwidth, double delay) {
     // lookup nodes based on address
     Node* hosta = nodes_[a];
     Node* hostb = nodes_[b];
-    Link* link = new Link(hosta, hostb, bandwidth, delay);
-    links_.push_back(link);
+    Link* linka = new Link(hosta, hostb, bandwidth, delay);
+    Link* linkb = new Link(hostb, hosta, bandwidth, delay);
+    links_.push_back(linka);
+    links_.push_back(linkb);
+    hosta->addLink(linka);
+    hostb->addLink(linkb);
 }
 
 void Network::initializeRoutingTables() const {

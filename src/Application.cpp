@@ -14,7 +14,7 @@ Packet* SimpleApplication::packetGenerator(int source, Packet* currentPacket) {
     if (counter_ == transmissionInterval_) {
         counter_ = 0;
 
-        int packetDestination = rand() % destinationAddresses_.size();
+        int packetDestination = destinationAddresses_[rand() % destinationAddresses_.size()];
         Packet* p = new Packet(source, packetDestination, 10);
         return p;
     }

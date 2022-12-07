@@ -27,6 +27,7 @@ public:
 
     int getAddress() const;
     int dummyStat() const;
+    void addLink(Link* link);
 
     /**
      * @brief getLastPacketAge
