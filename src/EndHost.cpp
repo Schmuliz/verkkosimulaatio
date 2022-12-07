@@ -19,32 +19,13 @@ EndHost::EndHost(int address, std::vector<int> application)
     }
 }
 
-void EndHost::runOneTick() {
-    if (!packets_.empty()) {
-        for (auto packet : packets_) { // increase age of every packet in the node
-            packet->runOneTick();
-        }
-        // Unlike other nodes, non-routing end hosts process all packets
-        this->processPacket(packets_.front());
-        packets_.erase(packets_.begin());
-        return;
-    }
-}
 
 void EndHost::processPacket(Packet *packet) {
-    int dst = packets_.front()->destinationAddress;
-
-    // If this is not the correct destination, packet is destroyed
-    if (dst != address_) {
-        delete packet;
-    } else {
-        lastPacketAge_ = packet->getAge();
-        Packet* newPacket = application_->packetGenerator(address_, packet);
-        if (newPacket != nullptr) {
-            packets_.push_back(newPacket);
-        }
-        delete packet;
+    Packet* newPacket = application_->packetGenerator(address_, packet);
+    if (newPacket != nullptr) {
+        packets_.push_back(newPacket);
     }
+    delete packet;
 }
 
 /**

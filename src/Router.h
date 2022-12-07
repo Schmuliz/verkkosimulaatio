@@ -5,13 +5,12 @@
 #include "Node.h"
 
 
-class Router : public Node
+class Router : virtual public Node
 {
 public:
     Router(int address);
     ~Router(){}
     void processPacket(Packet *packet) override;
-    void runOneTick() override;
     void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;
 
 private:
