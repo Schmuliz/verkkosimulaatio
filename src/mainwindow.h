@@ -3,7 +3,6 @@
 
 #include "qgraphicsscene.h"
 #include "Network.h"
-#include "SimulationThread.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -17,6 +16,11 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+signals:
+    void invSimSignal(bool state);
+
+protected:
+    void timerEvent(QTimerEvent *event) override;
 
 private slots:
     void on_actionExit_triggered();
@@ -27,11 +31,15 @@ private slots:
 
     void on_pushButton_clicked(bool checked);
 
+    void invSimState(bool state) {
+        emit invSimSignal(!state);
+    };
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *Scene;
     Network *network_;
-    SimulationThread *simthread_;
+    qint64 simulationtimerid_;
 };
 
 

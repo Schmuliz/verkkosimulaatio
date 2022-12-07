@@ -4,12 +4,13 @@
 #include "Link.h"
 #include "Packet.h"
 #include "Network.h"
+#include "Application.h"
 #include <QGraphicsItem>
 #include <vector>
 #include <queue>
 #include <QPainter>
 
-#define sizeconst 25
+constexpr double sizeconst = 25;
 
 
 class Node : public QGraphicsItem
@@ -18,7 +19,7 @@ public:
     Node(int address);
     ~Node(){}
 
-    void runOneTick();
+    virtual void runOneTick() = 0;
     void receive(Packet* packet);
     void receivePackets();
     void initializeRoutingTable();
@@ -40,7 +41,12 @@ public:
     int getBufferSize() const;
 
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
-private:
+    QRectF boundingRect() const override { return QRectF(-sizeconst, -sizeconst, sizeconst*2, sizeconst*2); }
+
+protected:
+    void drawTopText(QPainter*, QString);
+    void drawBottomText(QPainter*, QString);
+
     std::vector<Link*> links_;
     std::vector<Packet*> packets_;
     int address_;
@@ -48,6 +54,7 @@ private:
     std::map<int, Link*> lookupTable_;
     Network* network_;
     int lastPacketAge_ = 0;
+    Application* application_;
 };
 
 #endif // NODE_H

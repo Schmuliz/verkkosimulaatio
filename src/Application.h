@@ -5,6 +5,10 @@
 #include <vector>
 #include <cstdlib>
 
+/**
+ * @brief The Application class is an abstract class that is inherited by different types of applications
+ */
+
 class Application
 {
 public:
@@ -12,49 +16,74 @@ public:
     ~Application(){}
 
     /**
-     * @brief Virtual function that is called on every tick and
-     * returns a pointer to a Packet if one is generated
-     * or nullptr if no packet is generated.
+     * @brief The packetGenerator function is called on every tick and
+     * returns a vector of Packet pointers created
+     * or an empty vector if none were created
+     * @param source: address of the node that is creating the packet
      */
-    virtual Packet* packetGenerator(int) = 0;
+    virtual Packet* packetGenerator(int source, Packet* currentPacket) = 0;
 protected:
     std::vector<int> destinationAddresses_;
     int transmissionInterval_;
 
 };
 
+/**
+ * @brief The SimpleApplication class sends a single packet every tranmissionInterval_ ticks
+ */
 class SimpleApplication : public Application
 {
 public:
     SimpleApplication(std::vector<int> destinationAddresses, int transmissionInterval);
     ~SimpleApplication(){}
-    Packet* packetGenerator(int source);
+    Packet* packetGenerator(int source, Packet* currentPacket);
 private:
-    int counter_ = 0;
+    int counter_;
 };
 
-/*
+
+/**
+ * @brief The BurstApplication class sends packets in bursts where packets are
+ * first sent for multiple ticks in a row and then packet sending goes on a break
+ */
+class BurstApplication : public Application
+{
+public:
+    BurstApplication(std::vector<int> destinationAddresses, int transmissionInterval);
+    ~BurstApplication(){}
+    Packet* packetGenerator(int source, Packet* currentPacket);
+private:
+    /**
+      *@brief currentDestination_ is the address of the node
+      * that is currently being sent a burst if packetsLeftThisBurst_ > 0,
+      */
+    int currentDestination_;
+    int packetsLeftThisBurst_ = 0;
+    int counter_;
+};
+
+
+/**
+ * @brief The RespondingApplication class sends packets when it is sent packets
+ */
 class RespondingApplication : public Application
 {
 public:
-    RespondingApplication(int id);
+    RespondingApplication(std::vector<int> destinationAddresses, int transmissionInterval);
     ~RespondingApplication(){}
-    Packet* packet_generator();
+    Packet* packetGenerator(int source, Packet* currentPacket);
 };
 
-class SendingApplication : public Application
-{
-    SendingApplication(int id);
-    ~SendingApplication(){}
-    Packet* packet_generator();
-};
+/**
+ * @brief The ReceivingApplication class only receives packets
+ */
 
 class ReceivingApplication : public Application
 {
-    ReceivingApplication(int id);
+    ReceivingApplication(std::vector<int> destinationAddresses, int transmissionInterval);
     ~ReceivingApplication(){}
-    Packet* packet_generator();
+    Packet* packetGenerator(int source, Packet* currentPacket);
 };
-*/
+
 
 #endif // APPLICATION_H

@@ -37,7 +37,6 @@ set(PROJECT_SOURCES
         RoutingEndHost.h
         RoutingEndHost.cpp
         resources.qrc
-        SimulationThread.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

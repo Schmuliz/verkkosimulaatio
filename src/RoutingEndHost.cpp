@@ -8,16 +8,24 @@ RoutingEndHost::RoutingEndHost(int address, std::vector<int> application)
     // Avoid this being a duplicate implementation of std::vector application parsing
 }
 
-void RoutingEndHost::processPacket(Packet *packet) {}
 
+void RoutingEndHost::processPacket(Packet *packet) {
+    Packet* newPacket = application_->packetGenerator(address_, packet);
+    if (newPacket != nullptr) {
+        packets_.push_back(newPacket);
+    }
+    delete packet;
+}
 
+/**
+ * @brief RoutingEndHost::paint paints routingendhost specific
+ * @param painter qt painter
+ * @param option unused qt stuff
+ * @param widget unused qt stuff
+ */
 void RoutingEndHost::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) {
     qInfo() << "trying to draw a routing endhost";
     QPixmap routerimg(":/resources/routingendhost.png");
     painter->drawPixmap(-sizeconst, -sizeconst, routerimg.scaled(2*sizeconst, 2*sizeconst));
-}
-
-
-QRectF RoutingEndHost::boundingRect() const {
-    return QRectF(-sizeconst, -sizeconst, sizeconst, sizeconst);
+    drawTopText(painter, "1234");
 }

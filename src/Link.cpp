@@ -61,6 +61,12 @@ const Node* Link::getDestination() const { return node2_; }
 const double Link::getTransmissionSpeed() const { return transmissionSpeed_; }
 const double Link::getPropagationDelay() const { return propagationDelay_; }
 
+/**
+ * @brief Link::paint paints a link
+ * @param painter the painter to use
+ * @param option unused qt stuff
+ * @param widget unused qt stuff
+ */
 void Link::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) {
     painter->setPen(QPen(Qt::black, 3));    // make the link line thicker
     painter->translate(node1_->pos()); // set origin to node1
@@ -71,9 +77,15 @@ void Link::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWid
     qreal angle = std::atan2(tmpy, tmpx)*180/M_PI;
 
     painter->rotate(angle);
-    painter->drawLine(sizeconst, 0, euclidian-sizeconst,0);
+    painter->drawLine(sizeconst, 0, euclidian-sizeconst,0); //draw straight line in the translated coordinates
 
-    painter->drawText(QPointF(euclidian/2, -3), QString::number(dummyStat()));
+    painter->drawText(QRectF(euclidian*1/4, -20, euclidian*2/4, 17),
+                      Qt::AlignCenter,
+                      QString::number(dummyStat()).left(5) + "⟶"); // draw direction 2 statistic
+    painter->rotate(180);
+    painter->drawText(QRectF(-euclidian*3/4, -20, euclidian*2/4, 17),
+                      Qt::AlignCenter,
+                      QString::number(dummyStat()).left(5) + "⟶"); // draw direction 2 statistic
 }
 
 QRectF Link::boundingRect() const {
@@ -86,6 +98,10 @@ QRectF Link::boundingRect() const {
     return QRectF(x0, y0, x1, y1);
 }
 
+/**
+ * @brief Link::dummyStat Generates dummy statistic
+ * @return returns random integer
+ */
 int Link::dummyStat() const {
     return rand();
 }

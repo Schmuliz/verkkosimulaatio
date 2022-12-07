@@ -1,17 +1,32 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "SimulationThread.h"
-#include "Application.h"
+#include <QSlider>
+#include <QLCDNumber>
 #include <QFileDialog>
 #include <QDebug> // qDebug() is cursed, use qInfo() or higher
+#include <QPushButton>
+#include <QDoubleSpinBox>
 
-
-
+/**
+ * @brief MainWindow::MainWindow constructs Qt MainWindow
+ * @param parent parent relation to other widgets
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    connect(ui->pushButton,
+            &QPushButton::clicked,
+            this,
+            &MainWindow::invSimState);
+    connect(this,
+            static_cast<void (MainWindow::*)(bool)>(&MainWindow::invSimSignal),
+            ui->doubleSpinBox,
+            static_cast<void (QDoubleSpinBox::*)(bool)>(&QDoubleSpinBox::setEnabled) );
+
+
     Scene = new QGraphicsScene(this);
     ui->networkView->setScene(Scene);
 
@@ -21,15 +36,12 @@ MainWindow::MainWindow(QWidget *parent)
     Scene->addEllipse(-5, -5, 10, 10); // center of the universe indicator
 
     network_->initializeRoutingTables();
-    simthread_ = new SimulationThread(this, network_, Scene);
-
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
     delete network_;
-    delete simthread_;
 }
 
 
@@ -65,15 +77,18 @@ void MainWindow::on_pushButton_2_clicked()
     Scene->update();
 }
 
+void MainWindow::timerEvent(QTimerEvent *event) {
+    network_->runOneTick();
+    ui->networkView->scene()->update();
+}
 
 void MainWindow::on_pushButton_clicked(bool checked)
 {
-    qInfo() << "play-pause checked  " << checked;
-
     if(checked) {
-        simthread_->start();
+        qreal inversemsec = 1L/ui->doubleSpinBox->value()*1000;
+        simulationtimerid_ = startTimer(inversemsec);
     } else {
-
+        killTimer(simulationtimerid_);
     }
 }
 
