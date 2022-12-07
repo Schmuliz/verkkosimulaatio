@@ -94,6 +94,7 @@ int Node::dummyStat() const {
 }
 
 int Node::getLastPacketAge() const { return lastPacketAge_; }
+int Node::getBufferSize() const { return packets_.size(); }
 
 void Node::hoverMoveEvent(QGraphicsSceneHoverEvent *event) {
     setToolTip(QString::number(address_));

@@ -26,7 +26,18 @@ public:
 
     int getAddress() const;
     int dummyStat() const;
+
+    /**
+     * @brief getLastPacketAge
+     * @return age of last received packet in ticks
+     */
     int getLastPacketAge() const;
+
+    /**
+     * @brief getBufferSize
+     * @return number of packets waiting their turn in the node's buffer
+     */
+    int getBufferSize() const;
 
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
 private:
