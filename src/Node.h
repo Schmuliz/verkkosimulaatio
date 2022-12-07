@@ -19,7 +19,7 @@ public:
     Node(int address);
     ~Node(){}
 
-    virtual void runOneTick() = 0;
+    void runOneTick();
     void receive(Packet* packet);
     void receivePackets();
     void initializeRoutingTable();

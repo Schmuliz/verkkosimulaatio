@@ -4,17 +4,13 @@
 
 
 RoutingEndHost::RoutingEndHost(int address, std::vector<int> application)
-    : Router(address) {
+    : Node(address), Router(address), EndHost(address, application) {
     // Avoid this being a duplicate implementation of std::vector application parsing
 }
 
 
 void RoutingEndHost::processPacket(Packet *packet) {
-    Packet* newPacket = application_->packetGenerator(address_, packet);
-    if (newPacket != nullptr) {
-        packets_.push_back(newPacket);
-    }
-    delete packet;
+    EndHost::processPacket(packet);
 }
 
 /**

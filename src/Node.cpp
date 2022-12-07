@@ -8,6 +8,28 @@ Node::Node(int address) :
     setAcceptHoverEvents(true);
 }
 
+void Node::runOneTick() {
+    if (!packets_.empty()) {
+        for (auto packet : packets_) { // increase age of every packet in the node
+            packet->runOneTick();
+        }
+
+        int dst = packets_.front()->destinationAddress;
+
+        if (dst == address_) {
+            lastPacketAge_ = packets_.front()->getAge();
+            this->processPacket(packets_.front());
+            packets_.erase(packets_.begin());
+            return;
+        }
+
+        Link* destinationLink = lookupTable_[dst];
+        if (destinationLink->receive(packets_.front())) {
+            packets_.erase(packets_.begin());
+        }
+    }
+}
+
 void Node::receive(Packet* packet) {
     packets_.push_back(packet);
 }

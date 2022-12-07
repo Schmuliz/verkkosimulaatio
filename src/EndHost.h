@@ -4,12 +4,11 @@
 #include "Node.h"
 #include "Application.h"
 
-class EndHost : public Node
+class EndHost : virtual public Node
 {
 public:
     EndHost(int address, std::vector<int> application);
     ~EndHost(){}
-    void runOneTick() override;
     void processPacket(Packet *packet) override;
     void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;
 
