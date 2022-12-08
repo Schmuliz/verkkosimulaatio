@@ -2,6 +2,8 @@
 build/*
 !build/.gitkeep
 CMakeLists.txt.user
+doc/html/*
+doc/latex/*
 
 # Prerequisites
 *.d
