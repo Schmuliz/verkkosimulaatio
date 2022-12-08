@@ -8,23 +8,22 @@ class NetworkTest: public QObject
     Q_OBJECT
 
 private:
+    Network *network;
     bool myCondition()
     {
-        Network bla;
-        std::vector<int> aapp{1,10,256,2};
-        EndHost a = EndHost(1, aapp);
-        std::vector<int> bapp{1,10,256,2};
-        EndHost b = EndHost(2, bapp);
-        bla.addNode(&a);
-        bla.addNode(&b);
-        bla.addLink(1,2,500,50);
-        bla.initializeRoutingTables();
         return true;
     }
 
 private slots:
     void initTestCase()
     {
+        network = new Network();
+        EndHost *a = new EndHost(1, {1,10,256,2});
+        EndHost *b = new EndHost(2, {1,10,256,2});
+        network->addNode(a);
+        network->addNode(b);
+        network->addLink(1,2,500,50);
+        network->initializeRoutingTables();
         qDebug("Called before everything else.");
     }
 
@@ -37,6 +36,7 @@ private slots:
 
     void cleanupTestCase()
     {
+        delete network;
         qDebug("Called after myFirstTest and mySecondTest.");
     }
 };

@@ -14,9 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Widgets Gui)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
-
 set(PROJECT_SOURCES
-        main.cpp
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
@@ -40,34 +38,37 @@ set(PROJECT_SOURCES
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(verkkosimu
+    qt_add_library(verkkosimu
+        SHARED
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET verkkosimu APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
-    if(ANDROID)
-        add_library(verkkosimu SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(verkkosimu
-            ${PROJECT_SOURCES}
-        )
-    endif()
+    add_library(verkkosimu
+        SHARED
+        ${PROJECT_SOURCES}
+    )
 endif()
 
-target_link_libraries(verkkosimu PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui)
-if(${QT_VERSION_MAJOR} EQUAL 6)
-   target_link_libraries(verkkosimu PRIVATE Qt6::Gui)
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_finalize_target(verkkosimu)
 endif()
 
-set_target_properties(verkkosimu PROPERTIES
+
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_add_executable(verkkosimuapp MANUAL_FINALIZATION main.cpp)
+else()
+    add_executable(verkkosimuapp main.cpp)
+endif()
+
+
+target_link_libraries(verkkosimu PRIVATE Qt::Widgets Qt::Core Qt::Gui)
+
+
+target_link_libraries(verkkosimuapp PRIVATE Qt::Widgets verkkosimu)
+
+
+set_target_properties(verkkosimuapp PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -80,5 +81,5 @@ install(TARGETS verkkosimu
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(verkkosimu)
+    qt_finalize_executable(verkkosimuapp)
 endif()
