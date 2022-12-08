@@ -1,10 +1,6 @@
 project(verkkosimutests LANGUAGES CXX)
+find_package(Qt6 REQUIRED COMPONENTS Test)
 
-if (QT6)
-    find_package(Qt6 REQUIRED COMPONENTS Test)
-else()
-    find_package(Qt5 REQUIRED COMPONENTS Test)
-endif()
 
 include_directories("../src")
 

@@ -2,20 +2,20 @@
 
 // Application
 
-Application::Application(std::vector<int> destinationAddresses, int transmissionInterval)
-    : destinationAddresses_(destinationAddresses), transmissionInterval_(transmissionInterval) {}
+Application::Application(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize)
+    : destinationAddresses_(destinationAddresses), transmissionInterval_(transmissionInterval), packetSize_(packetSize) {}
 
 // TestApplication
 
-SimpleApplication::SimpleApplication(std::vector<int> destinationAddresses, int transmissionInterval)
-    : Application(destinationAddresses, transmissionInterval), counter_(rand() % transmissionInterval) {}
+SimpleApplication::SimpleApplication(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize)
+    : Application(destinationAddresses, transmissionInterval, packetSize), counter_(rand() % transmissionInterval) {}
 
 Packet* SimpleApplication::packetGenerator(int source, Packet* currentPacket) {
     if (counter_ == transmissionInterval_) {
         counter_ = 0;
 
         int packetDestination = destinationAddresses_[rand() % destinationAddresses_.size()];
-        Packet* p = new Packet(source, packetDestination, 10);
+        Packet* p = new Packet(source, packetDestination, packetSize_);
         return p;
     }
     counter_++;
@@ -24,15 +24,15 @@ Packet* SimpleApplication::packetGenerator(int source, Packet* currentPacket) {
 
 // BurstApplication
 
-BurstApplication::BurstApplication(std::vector<int> destinationAddresses, int transmissionInterval)
-    : Application(destinationAddresses, transmissionInterval) {
+BurstApplication::BurstApplication(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize)
+    : Application(destinationAddresses, transmissionInterval, packetSize) {
     counter_ = rand() % transmissionInterval;
 }
 
 Packet* BurstApplication::packetGenerator(int source, Packet* currentPacket) {
     if (packetsLeftThisBurst_ != 0) {
         packetsLeftThisBurst_--;
-        Packet* p = new Packet(source, currentDestination_, 10);
+        Packet* p = new Packet(source, currentDestination_, packetSize_);
         return p;
     } else {
         if (counter_ == transmissionInterval_) {
@@ -47,15 +47,15 @@ Packet* BurstApplication::packetGenerator(int source, Packet* currentPacket) {
 
 // RespondingApplication
 
-RespondingApplication::RespondingApplication(std::vector<int> destinationAddresses, int transmissionInterval)
-    : Application(destinationAddresses, transmissionInterval) {}
+RespondingApplication::RespondingApplication(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize)
+    : Application(destinationAddresses, transmissionInterval, packetSize) {}
 
 Packet* RespondingApplication::packetGenerator(int source, Packet* currentPacket) {
     if (currentPacket == nullptr) {
         return nullptr;
     }
     if (currentPacket->destinationAddress == source) {
-        Packet* p = new Packet(source, currentPacket->sourceAddress, 10);
+        Packet* p = new Packet(source, currentPacket->sourceAddress, packetSize_);
         return p;
     }
     return nullptr;
@@ -63,8 +63,8 @@ Packet* RespondingApplication::packetGenerator(int source, Packet* currentPacket
 
 // ReceivingApplication
 
-ReceivingApplication::ReceivingApplication(std::vector<int> destinationAddresses, int transmissionInterval)
-    : Application(destinationAddresses, transmissionInterval) {}
+ReceivingApplication::ReceivingApplication(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize)
+    : Application(destinationAddresses, transmissionInterval, packetSize) {}
 
 Packet* ReceivingApplication::packetGenerator(int source, Packet* currentPacket) {
     return nullptr;

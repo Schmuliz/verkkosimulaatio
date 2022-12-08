@@ -20,7 +20,6 @@ void Router::processPacket(Packet *packet) {
  * @param widget unused qt stuff
  */
 void Router::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) {
-    qInfo() << "trying to draw a router";
     QPixmap routerimg(":/resources/router.png");
     painter->drawPixmap(-sizeconst, -sizeconst, routerimg.scaled(2*sizeconst, 2*sizeconst)); // draw the raster
 

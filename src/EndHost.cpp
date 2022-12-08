@@ -15,7 +15,7 @@ EndHost::EndHost(int address, std::vector<int> application)
     if(appid == 1) {
         std::vector<int> destPart(application.begin()+3, application.end());
         application_ = new SimpleApplication(destPart,
-                                             application.back() ); //TODO parse parameters from vector
+                                             application.at(1), application.at(2) ); //TODO parse parameters from vector
     } else {
         throw "unkown appid";
     }
@@ -25,7 +25,6 @@ EndHost::EndHost(int address, std::vector<int> application)
 void EndHost::processPacket(Packet *packet) {
     Packet* newPacket = application_->packetGenerator(address_, packet);
     if (newPacket != nullptr) {
-        qInfo() << "Got a packet to send";
         packets_.push_back(newPacket);
     }
     if (packet != nullptr && packet->destinationAddress == address_) {
@@ -41,7 +40,6 @@ void EndHost::processPacket(Packet *packet) {
  * @param widget unused qt stuff
  */
 void EndHost::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) {
-    qInfo() << "trying to draw a endhost";
     QPixmap routerimg(":/resources/endhost.png");
     painter->drawPixmap(-sizeconst, -sizeconst, routerimg.scaled(2*sizeconst, 2*sizeconst));
     drawTopText(painter, QString::number(getLastPacketAge()));
