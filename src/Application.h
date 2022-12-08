@@ -12,7 +12,7 @@
 class Application
 {
 public:
-    Application(std::vector<int> destinationAddresses, int transmissionInterval);
+    Application(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize);
     ~Application(){}
 
     /**
@@ -25,7 +25,7 @@ public:
 protected:
     std::vector<int> destinationAddresses_;
     int transmissionInterval_;
-
+    int packetSize_;
 };
 
 /**
@@ -34,7 +34,7 @@ protected:
 class SimpleApplication : public Application
 {
 public:
-    SimpleApplication(std::vector<int> destinationAddresses, int transmissionInterval);
+    SimpleApplication(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize);
     ~SimpleApplication(){}
     Packet* packetGenerator(int source, Packet* currentPacket);
 private:
@@ -49,7 +49,7 @@ private:
 class BurstApplication : public Application
 {
 public:
-    BurstApplication(std::vector<int> destinationAddresses, int transmissionInterval);
+    BurstApplication(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize);
     ~BurstApplication(){}
     Packet* packetGenerator(int source, Packet* currentPacket);
 private:
@@ -69,7 +69,7 @@ private:
 class RespondingApplication : public Application
 {
 public:
-    RespondingApplication(std::vector<int> destinationAddresses, int transmissionInterval);
+    RespondingApplication(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize);
     ~RespondingApplication(){}
     Packet* packetGenerator(int source, Packet* currentPacket);
 };
@@ -80,7 +80,7 @@ public:
 
 class ReceivingApplication : public Application
 {
-    ReceivingApplication(std::vector<int> destinationAddresses, int transmissionInterval);
+    ReceivingApplication(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize);
     ~ReceivingApplication(){}
     Packet* packetGenerator(int source, Packet* currentPacket);
 };

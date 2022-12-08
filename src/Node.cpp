@@ -110,9 +110,12 @@ void Node::initializeRoutingTable() {
         else if (visited.count(node->getAddress()) == 0) { // the node has not been visited yet
             visited[node->getAddress()] = true;
             for (auto link : node->links_) {
-                lookupTable[link->getDestination()->getAddress()] = lookupTable[node->getAddress()];
-                double weight = link->getPropagationDelay() + c;
-                queue.push(std::pair(link->getDestination(), dist + weight));
+                const Node* destination = link->getDestination();
+                if (lookupTable.count(destination->getAddress()) == 0) { // the outgoing link hasn't been traversed
+                    lookupTable[destination->getAddress()] = lookupTable[node->getAddress()];
+                    double weight = link->getPropagationDelay() + c;
+                    queue.push(std::pair(destination, dist + weight));
+                }
             }
         }
     }
