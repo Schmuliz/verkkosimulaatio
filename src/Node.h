@@ -41,7 +41,7 @@ public:
      */
     int getBufferSize() const;
 
-    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;
     QRectF boundingRect() const override { return QRectF(-sizeconst, -sizeconst, sizeconst*2, sizeconst*2); }
 
 protected:

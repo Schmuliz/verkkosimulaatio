@@ -8,6 +8,10 @@ Node::Node(int address) :
     setAcceptHoverEvents(true);
 }
 
+/**
+ * @brief Node::runOneTick processes the next packet in line and sends it to processPacket;
+ * will route packets not meant for this Node to links according to lookupTable_
+ */
 void Node::runOneTick() {
     if (!packets_.empty()) {
         for (auto packet : packets_) { // increase age of every packet in the node
@@ -16,6 +20,7 @@ void Node::runOneTick() {
 
         int dst = packets_.front()->destinationAddress;
 
+        // Packets meant for this node are processed and removed from queue
         if (dst == address_) {
             lastPacketAge_ = packets_.front()->getAge();
             this->processPacket(packets_.front());
@@ -23,24 +28,33 @@ void Node::runOneTick() {
             return;
         }
 
+        // Packets meant for other nodes are routed and passed along to link
         this->processPacket(packets_.front());
         Link* destinationLink = lookupTable_[dst];
-        if (destinationLink->receive(packets_.front())) {
+        if (destinationLink->receive(packets_.front())) { // only pass to link if it has capacity
             packets_.erase(packets_.begin());
         }
     } else {
+        // let application know there is no
         this->processPacket();
     }
 }
+
 
 void Node::receive(Packet* packet) {
     packets_.push_back(packet);
 }
 
+
 void Node::addLink(Link* link) {
     links_.push_back(link);
 }
 
+/**
+ * @brief Node::receivePackets transfers all received packets to the packets_ queue,
+ * from where they will be processed one by one. The purpose of this is so that Nodes
+ * cannot process packets received this "tick".
+ */
 void Node::receivePackets() {
     while (!received_.empty()) {
         packets_.push_back(received_.front());
@@ -56,7 +70,11 @@ int Node::getAddress() const {
     return address_;
 }
 
-// calculate the next link from this node for all destinations in the network using modified Dijkstra's algorithm, will only route packets through routers
+
+/**
+ * @brief Node::initializeRoutingTable calculate the next link from this node for all destinations in
+ * the network using modified Dijkstra's algorithm, will only route packets through routers
+ */
 void Node::initializeRoutingTable() {
     std::map<int, double> distances;
     std::map<int, bool> visited;

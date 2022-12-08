@@ -15,14 +15,17 @@ EndHost::EndHost(int address, std::vector<int> application)
     if(appid == 1) {
         std::vector<int> destPart(application.begin()+3, application.end());
         application_ = new SimpleApplication(destPart,
-                                             application.at(1) ); //TODO parse parameters from vector
+                                             application.at(1) );
     } else {
         throw "unkown appid";
     }
 }
 
-
-void EndHost::processPacket(Packet *packet) {
+/**
+ * @brief EndHost::processPacket forwards current packet to application, if no packets lets application know that, too
+ * @param packet current packet this EndHost is handling, default value is nullptr (no packets)
+ */
+void EndHost::processPacket(Packet *packet = nullptr) {
     Packet* newPacket = application_->packetGenerator(address_, packet);
     if (newPacket != nullptr) {
         packets_.push_back(newPacket);
