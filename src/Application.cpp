@@ -10,6 +10,11 @@ Application::Application(std::vector<int> destinationAddresses, int transmission
 SimpleApplication::SimpleApplication(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize)
     : Application(destinationAddresses, transmissionInterval, packetSize), counter_(rand() % transmissionInterval) {}
 
+/**
+ * @brief SimpleApplication::packetGenerator will generate packets depending on a predetermined
+ * interval; ignores the incoming packet
+ * @return new packet to be sent or nullptr if nothing is sent
+ */
 Packet* SimpleApplication::packetGenerator(int source, Packet* currentPacket) {
     if (counter_ == transmissionInterval_) {
         counter_ = 0;
@@ -29,6 +34,11 @@ BurstApplication::BurstApplication(std::vector<int> destinationAddresses, int tr
     counter_ = rand() % transmissionInterval;
 }
 
+/**
+ * @brief BurstApplication::packetGenerator sends a burst of packets every transmissionInterval_, otherwise
+ * sends a nullptr. Updates how many packets are left in this burst or how long until next burst, depending
+ * on whether a burst is ongoing when called.
+ */
 Packet* BurstApplication::packetGenerator(int source, Packet* currentPacket) {
     if (packetsLeftThisBurst_ != 0) {
         packetsLeftThisBurst_--;
@@ -50,6 +60,11 @@ Packet* BurstApplication::packetGenerator(int source, Packet* currentPacket) {
 RespondingApplication::RespondingApplication(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize)
     : Application(destinationAddresses, transmissionInterval, packetSize) {}
 
+/**
+ * @brief RespondingApplication::packetGenerator will generate a new packet only when
+ * it receives a packet for itself; it responds to packets
+ * @return new packet to be sent or nullptr, if it itself received a nullptr
+ */
 Packet* RespondingApplication::packetGenerator(int source, Packet* currentPacket) {
     if (currentPacket == nullptr) {
         return nullptr;
@@ -66,6 +81,10 @@ Packet* RespondingApplication::packetGenerator(int source, Packet* currentPacket
 ReceivingApplication::ReceivingApplication(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize)
     : Application(destinationAddresses, transmissionInterval, packetSize) {}
 
+/**
+ * @brief ReceivingApplication::packetGenerator will always return nullptr; this application does not send anything
+ * @return always a nullptr
+ */
 Packet* ReceivingApplication::packetGenerator(int source, Packet* currentPacket) {
     return nullptr;
 }
