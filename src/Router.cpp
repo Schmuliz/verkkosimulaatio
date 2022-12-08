@@ -7,6 +7,11 @@
 Router::Router(int address)
     : Node(address) {}
 
+/**
+ * @brief Router::processPacket processes packet; will simply destroy packet if its destination is this Router
+ * (which it shouldn't be), otherwise does nothing
+ * @param packet
+ */
 void Router::processPacket(Packet *packet) {
     if (packet != nullptr && packet->destinationAddress == address_){
         delete packet;

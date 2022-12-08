@@ -134,7 +134,7 @@ void Network::addLink(int a, int b, double bandwidth, double delay) {
 }
 
 /**
- * @brief Network::initializeRoutingTables Initialize all node's routing tables.
+ * @brief Network::initializeRoutingTables Initialize all nodes' routing tables.
  */
 void Network::initializeRoutingTables() const {
     for (auto node : nodes_) {
