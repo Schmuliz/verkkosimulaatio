@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QGraphicsItem>
 #include <QGraphicsScene>
 
 /**

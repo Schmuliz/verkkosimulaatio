@@ -95,7 +95,10 @@ void Link::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWid
 
     painter->drawText(QRectF(euclidian*1/4, -20, euclidian*2/4, 17),
                       Qt::AlignCenter,
-                      QString::number(getUtilization()) + "(" + QString::number(getCumulativeThroughput()) + ")⟶"); // draw direction 2 statistic
+                      QString::number( (int)(100L*getUtilization())) +
+                      "% (" +
+                      QString::number( (int)(0.001*getCumulativeThroughput())) +
+                      "k)⟶" );
 
 }
 
