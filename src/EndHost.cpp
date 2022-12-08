@@ -21,8 +21,11 @@ EndHost::EndHost(int address, std::vector<int> application)
     }
 }
 
-
-void EndHost::processPacket(Packet *packet) {
+/**
+ * @brief EndHost::processPacket forwards current packet to application, if no packets lets application know that, too
+ * @param packet current packet this EndHost is handling, default value is nullptr (no packets)
+ */
+void EndHost::processPacket(Packet *packet = nullptr) {
     Packet* newPacket = application_->packetGenerator(address_, packet);
     if (newPacket != nullptr) {
         packets_.push_back(newPacket);
