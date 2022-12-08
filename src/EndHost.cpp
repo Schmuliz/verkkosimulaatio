@@ -15,7 +15,7 @@ EndHost::EndHost(int address, std::vector<int> application)
     if(appid == 1) {
         std::vector<int> destPart(application.begin()+3, application.end());
         application_ = new SimpleApplication(destPart,
-                                             application.at(1) ); //TODO parse parameters from vector
+                                             application.at(1), application.at(2) ); //TODO parse parameters from vector
     } else {
         throw "unkown appid";
     }
