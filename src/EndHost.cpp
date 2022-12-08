@@ -32,6 +32,14 @@ EndHost::EndHost(int address, std::vector<int> application)
 }
 
 /**
+ * @brief EndHost::~EndHost destructor to delete application;
+ * virtual destructor of parent Node will delete packets
+ */
+EndHost::~EndHost() {
+    delete application_;
+}
+
+/**
  * @brief EndHost::processPacket forwards current packet to application, if no packets lets application know that, too
  * @param packet current packet this EndHost is handling, default value is nullptr (no packets)
  */
@@ -43,7 +51,6 @@ void EndHost::processPacket(Packet *packet = nullptr) {
     if (packet != nullptr && packet->destinationAddress == address_) {
         delete packet;
     }
-
 }
 
 /**

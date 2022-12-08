@@ -17,7 +17,7 @@ class Node : public QGraphicsItem
 {
 public:
     Node(int address);
-    ~Node(){}
+    virtual ~Node();
 
     void runOneTick();
     void receive(Packet* packet);
