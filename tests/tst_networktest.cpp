@@ -1,12 +1,24 @@
 #include <QtTest>
+#include <vector>
+#include "EndHost.h"
+#include "Network.h"
 
-class MyFirstTest: public QObject
+class NetworkTest: public QObject
 {
     Q_OBJECT
 
 private:
     bool myCondition()
     {
+        Network bla;
+        std::vector<int> aapp{1,10,256,2};
+        EndHost a = EndHost(1, aapp);
+        std::vector<int> bapp{1,10,256,2};
+        EndHost b = EndHost(2, bapp);
+        bla.addNode(&a);
+        bla.addNode(&b);
+        bla.addLink(1,2,500,50);
+        bla.initializeRoutingTables();
         return true;
     }
 
@@ -16,17 +28,12 @@ private slots:
         qDebug("Called before everything else.");
     }
 
-    void myFirstTest()
-    {
-        QVERIFY(true); // check that a condition is satisfied
-        QCOMPARE(1, 1); // compare two values
-    }
-
-    void mySecondTest()
+    void firstTest()
     {
         QVERIFY(myCondition());
-        QVERIFY(1 != 2);
+        //QCOMPARE(1, 1); // compare two values
     }
+
 
     void cleanupTestCase()
     {
@@ -34,5 +41,5 @@ private slots:
     }
 };
 
-QTEST_MAIN(MyFirstTest)
+QTEST_MAIN(NetworkTest)
 #include "tst_networktest.moc"

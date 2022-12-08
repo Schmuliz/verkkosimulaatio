@@ -1,7 +1,6 @@
 #ifndef LINK_H
 #define LINK_H
 
-//#include "Node.h"
 #include "Packet.h"
 #include <QGraphicsItem>
 #include <QQueue>
@@ -60,6 +59,7 @@ public:
     void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;
 
     int dummyStat() const;
+
 private:
     double transmissionSpeed_;
     double propagationDelay_;
@@ -83,6 +83,7 @@ private:
      * The packet in inTransmission_ is also counted
      */
     int currentThroughput_ = 0;
+
 };
 
 #endif // LINK_H

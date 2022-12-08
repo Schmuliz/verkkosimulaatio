@@ -17,7 +17,7 @@ class Node : public QGraphicsItem
 {
 public:
     Node(int address);
-    ~Node(){}
+    ~Node() {}
 
     void runOneTick();
     void receive(Packet* packet);
@@ -41,7 +41,7 @@ public:
      */
     int getBufferSize() const;
 
-    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;
     QRectF boundingRect() const override { return QRectF(-sizeconst, -sizeconst, sizeconst*2, sizeconst*2); }
 
 protected:
