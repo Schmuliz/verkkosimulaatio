@@ -34,7 +34,7 @@ void Node::runOneTick() {
 }
 
 void Node::receive(Packet* packet) {
-    packets_.push_back(packet);
+    received_.push_back(packet);
 }
 
 void Node::addLink(Link* link) {
