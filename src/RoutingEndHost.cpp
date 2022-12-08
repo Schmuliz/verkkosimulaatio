@@ -20,7 +20,6 @@ void RoutingEndHost::processPacket(Packet *packet) {
  * @param widget unused qt stuff
  */
 void RoutingEndHost::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) {
-    qInfo() << "trying to draw a routing endhost";
     QPixmap routerimg(":/resources/routingendhost.png");
     painter->drawPixmap(-sizeconst, -sizeconst, routerimg.scaled(2*sizeconst, 2*sizeconst));
     drawTopText(painter, QString::number(getLastPacketAge()));

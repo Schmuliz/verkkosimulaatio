@@ -15,7 +15,7 @@ Packet* SimpleApplication::packetGenerator(int source, Packet* currentPacket) {
         counter_ = 0;
 
         int packetDestination = destinationAddresses_[rand() % destinationAddresses_.size()];
-        Packet* p = new Packet(source, packetDestination, 10);
+        Packet* p = new Packet(source, packetDestination, 64);
         return p;
     }
     counter_++;

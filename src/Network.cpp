@@ -63,14 +63,12 @@ Network::Network(QString filename) {
 
     // load json
     QJsonDocument doc = QJsonDocument::fromJson(barr);
-    qInfo() << "the loaded json doc: " << doc.toJson();
 
     // parse json, create elements for each node and link, and initialize routing tables for nodes
     try {
         QJsonArray nodeArr = doc["nodes"].toArray();
         for(auto n : nodeArr) {
             QJsonObject jn = n.toObject();
-            qInfo() << jn;
             Node* node = createNodeFromJsonObject(jn);
             addNode(node);
         }
@@ -78,7 +76,6 @@ Network::Network(QString filename) {
         QJsonArray linkArr = doc["links"].toArray();
         for(auto l : linkArr) {
             QJsonObject jl = l.toObject();
-            qInfo() << jl;
             addJsonLinkToNetwork(this, jl);
         }
 

@@ -99,8 +99,9 @@ void Node::initializeRoutingTable() {
         }
     }
     lookupTable_ = lookupTable;
+    qInfo() << "LookupTable of node " << address_;
     for (auto item : lookupTable) {
-        qInfo() << item;
+        qInfo() << "Final dest: " << item.first << " Next: " << item.second->getDestination()->getAddress();
     }
 }
 
