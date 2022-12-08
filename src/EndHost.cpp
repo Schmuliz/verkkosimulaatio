@@ -12,12 +12,22 @@
 EndHost::EndHost(int address, std::vector<int> application)
     : Node(address) {
     int appid = application.at(0); // always safe to read
-    if(appid == 1) {
-        std::vector<int> destPart(application.begin()+3, application.end());
-        application_ = new SimpleApplication(destPart,
-                                             application.at(1), application.at(2) ); //TODO parse parameters from vector
-    } else {
-        throw "unkown appid";
+    std::vector<int> destPart(application.begin()+3, application.end());
+    switch (appid) {
+        case 1:
+            application_ = new SimpleApplication(destPart, application.at(1), application.at(2));
+            break;
+        case 2:
+            application_ = new BurstApplication(destPart, application.at(1), application.at(2));
+            break;
+        case 3:
+            application_ = new RespondingApplication(destPart, application.at(1), application.at(2));
+            break;
+        case 4:
+            application_ = new ReceivingApplication();
+            break;
+        default:
+            throw "unkown appid";
     }
 }
 
