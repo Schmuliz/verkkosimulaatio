@@ -5,7 +5,7 @@
 Application::Application(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize)
     : destinationAddresses_(destinationAddresses), transmissionInterval_(transmissionInterval), packetSize_(packetSize) {}
 
-// TestApplication
+// SimpleApplication
 
 SimpleApplication::SimpleApplication(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize)
     : Application(destinationAddresses, transmissionInterval, packetSize), counter_(rand() % transmissionInterval) {}

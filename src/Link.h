@@ -20,39 +20,19 @@ public:
     Link(Node* node1, Node* node2, double transmissionSpeed, double propagationDelay);
     ~Link();
 
-    /**
-     * @brief runOneTick advances pakcets in packets_ according to
-     * propagation delay. If the firs packet in the queue is transmitted,
-     * move it to the next node
-     */
     void runOneTick();
 
-    /**
-     * @brief receive sets the value of inTransmission to packet if there is no packet in transmission
-     * @param packet
-     * @return 1 if packet was received, 0 if packet couldn't be received
-     */
+
     int receive(Packet* packet);
 
-    /**
-     * @brief receivePackets advances the packet in inTransmission and moves it to packets_
-     * when it is completely transmitted from the sender node to this link.
-     */
     void receivePackets();
 
     const Node* getDestination() const;
     const double getTransmissionSpeed() const;
     const double getPropagationDelay() const;
 
-    /**
-     * @brief getCumulativeThroughput
-     * @return amount of bits that have gone through this link
-     */
+
     int getCumulativeThroughput() const;
-    /**
-     * @brief getUtilization
-     * @return percentage of the link throughput that is currently used (1.0 = 100%)
-     */
     double getUtilization() const;
 
     // virtual mehtods inherited from Qt that must be implemented

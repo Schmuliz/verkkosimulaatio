@@ -8,7 +8,7 @@ class EndHost : virtual public Node
 {
 public:
     EndHost(int address, std::vector<int> application);
-    ~EndHost(){}
+    ~EndHost();
     void processPacket(Packet *packet) override;
     void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;
 
