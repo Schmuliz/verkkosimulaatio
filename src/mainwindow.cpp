@@ -6,6 +6,8 @@
 #include <QDebug> // qDebug() is cursed, use qInfo() or higher
 #include <QPushButton>
 #include <QDoubleSpinBox>
+#include <QMessageBox>
+
 
 /**
  * @brief MainWindow::MainWindow constructs Qt MainWindow
@@ -76,9 +78,16 @@ void MainWindow::on_actionLoad_Simulation_triggered()
         newnetwork = new Network(filename);
         replaceNetwork(newnetwork);
     }
-    catch (std::exception &e) {
+    catch (const char* msg) {
+        qCritical() << msg;
         delete newnetwork;
-        throw e;
+        auto mbox = QMessageBox(QMessageBox::Critical, "Error", msg);
+        mbox.exec();
+    }
+    catch (...) {
+        auto mbox = QMessageBox(QMessageBox::Critical, "Error", "unknown file loading error");
+        mbox.exec();
+        delete newnetwork;
     }
 }
 

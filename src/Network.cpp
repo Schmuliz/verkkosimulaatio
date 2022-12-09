@@ -91,8 +91,11 @@ Network::Network(QString filename) {
 
         this->initializeRoutingTables();
     }
-    catch (std::exception) {
-        throw "failed to parse network configuration";
+    catch (const char* msg) {
+        throw msg;
+    }
+    catch (...) {
+        qCritical() << "unknown network parsing error";
     }
 }
 
@@ -146,6 +149,9 @@ void Network::addLink(int a, int b, double bandwidth, double delay) {
     // lookup nodes based on address
     Node* hosta = nodes_[a];
     Node* hostb = nodes_[b];
+    if(!(hosta && hostb)) {
+        throw "bad link added";
+    }
     Link* linka = new Link(hosta, hostb, bandwidth, delay);
     Link* linkb = new Link(hostb, hosta, bandwidth, delay);
     links_.push_back(linka);
