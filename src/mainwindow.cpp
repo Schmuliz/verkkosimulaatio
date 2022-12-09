@@ -82,6 +82,7 @@ void MainWindow::on_actionLoad_Simulation_triggered()
     try {
         newnetwork = new Network(filename);
         replaceNetwork(newnetwork);
+        ticklcd_->display(0);
     }
     catch (const char* msg) {
         qCritical() << msg;
