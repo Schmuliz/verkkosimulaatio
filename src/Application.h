@@ -13,7 +13,7 @@ class Application
 {
 public:
     Application(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize);
-    ~Application(){}
+    virtual ~Application(){};
 
     /**
      * @brief The packetGenerator function is called on every tick and
@@ -80,7 +80,8 @@ public:
 
 class ReceivingApplication : public Application
 {
-    ReceivingApplication(std::vector<int> destinationAddresses, int transmissionInterval, int packetSize);
+public:
+    ReceivingApplication(std::vector<int> destinationAddresses = {}, int transmissionInterval = 0, int packetSize = 0);
     ~ReceivingApplication(){}
     Packet* packetGenerator(int source, Packet* currentPacket);
 };

@@ -8,6 +8,15 @@ Node::Node(int address) :
     setAcceptHoverEvents(true);
 }
 
+Node::~Node() {
+    for (auto packet : packets_) {
+        delete packet;
+    }
+    for (auto packet : received_) {
+        delete packet;
+    }
+}
+
 /**
  * @brief Node::runOneTick processes the next packet in line and sends it to processPacket;
  * will route packets not meant for this Node to links according to lookupTable_
@@ -23,24 +32,27 @@ void Node::runOneTick() {
         // Packets meant for this node are processed and removed from queue
         if (dst == address_) {
             lastPacketAge_ = packets_.front()->getAge();
-            this->processPacket(packets_.front());
+            processPacket(packets_.front());
             packets_.erase(packets_.begin());
             return;
         }
 
         // Packets meant for other nodes are routed and passed along to link
-        this->processPacket(packets_.front());
+        processPacket(packets_.front());
         Link* destinationLink = lookupTable_[dst];
         if (destinationLink->receive(packets_.front())) { // only pass to link if it has capacity
             packets_.erase(packets_.begin());
         }
     } else {
         // let application know there is no
-        this->processPacket();
+        processPacket();
     }
 }
 
-
+/**
+ * @brief Node::receive adds received packet to packets_, from where it will be processes
+ * @param packet packet from received
+ */
 void Node::receive(Packet* packet) {
     received_.push_back(packet);
 }
@@ -72,7 +84,7 @@ int Node::getAddress() const {
 
 
 /**
- * @brief Node::initializeRoutingTable calculate the next link from this node for all destinations in
+ * @brief Node::initializeRoutingTable calculates the next link from this node for all destinations in
  * the network using modified Dijkstra's algorithm, will only route packets through routers
  */
 void Node::initializeRoutingTable() {
@@ -136,6 +148,7 @@ int Node::dummyStat() const {
 
 int Node::getLastPacketAge() const { return lastPacketAge_; }
 int Node::getBufferSize() const { return packets_.size(); }
+
 
 void Node::hoverMoveEvent(QGraphicsSceneHoverEvent *event) {
     setToolTip(QString::number(address_));

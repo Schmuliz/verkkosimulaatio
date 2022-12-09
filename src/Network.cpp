@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QGraphicsItem>
 #include <QGraphicsScene>
 
 /**
@@ -42,6 +43,11 @@ Node* createNodeFromJsonObject(QJsonObject obj) {
     return node;
 }
 
+/**
+ * @brief addJsonLinkToNetwork takes Link parameters as a QJsonObject and uses them to create a Link which is added to the network
+ * @param net pointer to the network we are constructing
+ * @param obj JSON object which contains the Link's parameters
+ */
 void addJsonLinkToNetwork(Network *net, QJsonObject obj) {
     int hosta = obj["hosta"].toInt();
     int hostb = obj["hostb"].toInt();
@@ -51,6 +57,10 @@ void addJsonLinkToNetwork(Network *net, QJsonObject obj) {
     net->addLink(hosta, hostb, bandwidth, delay);
 }
 
+/**
+ * @brief Network::Network constructs the network based on a JSON file in resources.qrc
+ * @param filename name of the JSON file from which the network blueprint is read
+ */
 Network::Network(QString filename) {
     qInfo() << "Loading network from file";
 
@@ -86,6 +96,10 @@ Network::Network(QString filename) {
     }
 }
 
+/**
+ * @brief Network::~Network deconstructor deletes all Nodes and Links, and their
+ * respective deconstructors destroy packets
+ */
 Network::~Network() {
     for(auto n : nodes_) {
         delete n;
@@ -95,6 +109,12 @@ Network::~Network() {
     }
 }
 
+/**
+ * @brief Network::runOneTick For all Nodes and Links, first calls
+ * runOneTick() and then, when all are done, calls receivePackets() and
+ * this is done to make sure Nodes don't receive and pass forward a packet
+ * within the same tick
+ */
 void Network::runOneTick() {
     for (auto const& node : nodes_) {
         node->runOneTick();
@@ -103,12 +123,13 @@ void Network::runOneTick() {
         link->runOneTick();
     }
     for (auto const& node : nodes_) {
-         node->receivePackets();
+        node->receivePackets();
     }
     for (auto const& link : links_) {
         link->receivePackets();
     }
 }
+
 
 void Network::addNode(Node *node) {
     nodes_.insert(node->getAddress(), node);

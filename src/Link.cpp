@@ -17,6 +17,11 @@ Link::~Link() {
     delete inTransmission_;
 }
 
+/**
+ * @brief runOneTick advances pakcets in packets_ according to
+ * propagation delay. If the firs packet in the queue is transmitted,
+ * move it to the next node
+ */
 void Link::runOneTick() {
     if (std::size(packets_) > 0) {
         // advance packets
@@ -34,6 +39,11 @@ void Link::runOneTick() {
     }
 }
 
+/**
+ * @brief receive sets the value of inTransmission to packet if there is no packet in transmission
+ * @param packet
+ * @return 1 if packet was received, 0 if packet couldn't be received
+ */
 int Link::receive(Packet* packet) {
     if (inTransmission_ == nullptr) {
         inTransmission_ = packet;
@@ -43,6 +53,10 @@ int Link::receive(Packet* packet) {
     else return 0;
 }
 
+/**
+ * @brief receivePackets advances the packet in inTransmission and moves it to packets_
+ * when it is completely transmitted from the sender node to this link.
+ */
 void Link::receivePackets() {
     if (inTransmission_ != nullptr) {
         if (inTransmission_->received >= 1) {
@@ -81,7 +95,10 @@ void Link::paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWid
 
     painter->drawText(QRectF(euclidian*1/4, -20, euclidian*2/4, 17),
                       Qt::AlignCenter,
-                      QString::number(getUtilization()) + "(" + QString::number(getCumulativeThroughput()) + ")⟶"); // draw direction 2 statistic
+                      QString::number( (int)(100L*getUtilization())) +
+                      "% (" +
+                      QString::number( (int)(0.001*getCumulativeThroughput())) +
+                      "k)⟶" );
 
 }
 
@@ -103,5 +120,14 @@ int Link::dummyStat() const {
     return rand();
 }
 
+/**
+ * @brief getCumulativeThroughput
+ * @return amount of bits that have gone through this link
+ */
 int Link::getCumulativeThroughput() const { return cumulativeThroughput_; }
+
+/**
+ * @brief getUtilization
+ * @return percentage of the link throughput that is currently used (1.0 = 100%)
+ */
 double Link::getUtilization() const { return currentThroughput_ / maxThroughput_; }
