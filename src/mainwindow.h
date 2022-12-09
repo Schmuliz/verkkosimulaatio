@@ -35,11 +35,14 @@ private slots:
         emit invSimSignal(!state);
     };
 
+
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene_;
     Network *network_;
     qint64 simulationtimerid_;
+    void replaceNetwork(Network* network);
 };
 
 

@@ -45,12 +45,18 @@ MainWindow::~MainWindow()
     delete network_;
 }
 
+void MainWindow::replaceNetwork(Network *network) {
+    delete network_;
+    scene_->clear();
+    network_ = network;
+    network_->populateScene(scene_);
+    scene_->update();
+}
 
 void MainWindow::on_actionExit_triggered()
 {
     MainWindow::close();
 }
-
 
 void MainWindow::on_actionLoad_Simulation_triggered()
 {
@@ -61,18 +67,21 @@ void MainWindow::on_actionLoad_Simulation_triggered()
     dialog.setViewMode(QFileDialog::Detail);
     QString filename;
     if(dialog.exec()) {
-        filename = dialog.selectedFiles().at(0); // only single file can be selected
+        filename = dialog.selectedFiles().at(0); // only a single file can be selected
     }
     qInfo() << "File dialog selected file: " << filename;
 
-    delete network_;
-    network_ = new Network(filename);
+    Network *newnetwork = nullptr;
+    try {
+        newnetwork = new Network(filename);
+        replaceNetwork(newnetwork);
+    }
+    catch (std::exception &e) {
+        delete newnetwork;
+        throw e;
+    }
 }
 
-
-/***
- * \brief Updates scene
- */
 void MainWindow::on_pushButton_2_clicked()
 {
     network_->runOneTick();
@@ -93,5 +102,3 @@ void MainWindow::on_pushButton_clicked(bool checked)
         killTimer(simulationtimerid_);
     }
 }
-
-

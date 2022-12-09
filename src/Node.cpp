@@ -1,6 +1,7 @@
 #include "Node.h"
 #include "Router.h"
 #include <cstdlib>
+#include <QDebug>
 
 
 Node::Node(int address) :
@@ -39,10 +40,17 @@ void Node::runOneTick() {
 
         // Packets meant for other nodes are routed and passed along to link
         processPacket(packets_.front());
-        Link* destinationLink = lookupTable_[dst];
-        if (destinationLink->receive(packets_.front())) { // only pass to link if it has capacity
+        auto destinationLinkIterator = lookupTable_.find(dst);
+
+        if ( destinationLinkIterator == lookupTable_.end() ) { // log warning about unreachable destinations and drop package
+            qWarning() << "Packet had unreachable destination " << dst;
+            packets_.erase(packets_.begin());
+            return;
+        }
+        if ( destinationLinkIterator->second->receive(packets_.front()) ) { // only pass to link if it has capacity
             packets_.erase(packets_.begin());
         }
+
     } else {
         // let application know there is no
         processPacket();
