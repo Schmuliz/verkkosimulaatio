@@ -35,10 +35,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     network_ = new Network(":/resources/network.json");
     network_->populateScene(scene_);
-
-    scene_->addEllipse(-5, -5, 10, 10); // center of the universe indicator
-
     network_->initializeRoutingTables();
+
+    ticklcd_ = new QLCDNumber(ui->networkView);
+    ticklcd_->setDigitCount(10);
+    ticklcd_->show();
+    connect(this,
+            &MainWindow::updateTickLcd,
+            ticklcd_,
+            static_cast<void (QLCDNumber::*)(int)>(&QLCDNumber::display) );
 }
 
 MainWindow::~MainWindow()
@@ -91,15 +96,19 @@ void MainWindow::on_actionLoad_Simulation_triggered()
     }
 }
 
-void MainWindow::on_pushButton_2_clicked()
-{
+void MainWindow::runOneTick() {
     network_->runOneTick();
+    emit updateTickLcd(network_->getCurrentTick());
     scene_->update();
 }
 
+void MainWindow::on_pushButton_2_clicked()
+{
+    runOneTick();
+}
+
 void MainWindow::timerEvent(QTimerEvent *event) {
-    network_->runOneTick();
-    scene_->update();
+    runOneTick();
 }
 
 void MainWindow::on_pushButton_clicked(bool checked)

@@ -131,6 +131,7 @@ void Network::runOneTick() {
     for (auto const& link : links_) {
         link->receivePackets();
     }
+    tick_++;
 }
 
 
@@ -180,4 +181,10 @@ void Network::populateScene(QGraphicsScene *scene) {
     for(auto node : nodes_) {
         scene->addItem(node);
     }
+
+}
+
+
+int Network::getCurrentTick() const {
+    return tick_;
 }
