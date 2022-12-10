@@ -29,13 +29,14 @@ MainWindow::MainWindow(QWidget *parent)
             static_cast<void (QDoubleSpinBox::*)(bool)>(&QDoubleSpinBox::setEnabled) );
 
 
-    scene_ = new QGraphicsScene(this);
-    scene_->setBackgroundBrush(Qt::white);
-    ui->networkView->setScene(scene_);
-
     network_ = new Network(":/resources/network.json");
-    network_->populateScene(scene_);
+    scene_ = new QGraphicsScene(this);
+    ui->networkView->setScene(scene_);
     network_->initializeRoutingTables();
+    network_->populateScene(scene_);
+
+    scene_->setBackgroundBrush(Qt::white);
+   // ui->networkView->ensureVisible(scene_->sceneRect());
 
     ticklcd_ = new QLCDNumber(ui->networkView);
     ticklcd_->setDigitCount(10);
