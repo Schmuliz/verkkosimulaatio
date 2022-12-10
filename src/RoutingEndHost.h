@@ -4,7 +4,9 @@
 #include "Router.h"
 #include "EndHost.h"
 
-
+/**
+ * @brief The RoutingEndHost class. Represents a type of network node that is capable of running applications like a endhost and forwarding packages like a router.
+ */
 class RoutingEndHost : public EndHost, public Router
 {
 public:

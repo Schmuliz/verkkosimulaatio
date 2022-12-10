@@ -4,7 +4,9 @@
 #include "Packet.h"
 #include "Node.h"
 
-
+/**
+ * @brief The Router class. A type of netowork node that is capable of routing packages forward.
+ */
 class Router : virtual public Node
 {
 public:

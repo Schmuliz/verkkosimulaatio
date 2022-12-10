@@ -134,7 +134,10 @@ void Network::runOneTick() {
     tick_++;
 }
 
-
+/**
+ * @brief Network::addNode adds node to the network
+ * @param node pointer to a network node
+ */
 void Network::addNode(Node *node) {
     nodes_.insert(node->getAddress(), node);
 }
@@ -184,7 +187,10 @@ void Network::populateScene(QGraphicsScene *scene) {
 
 }
 
-
+/**
+ * @brief Network::getCurrentTick
+ * @return current tick of the simulation
+ */
 int Network::getCurrentTick() const {
     return tick_;
 }

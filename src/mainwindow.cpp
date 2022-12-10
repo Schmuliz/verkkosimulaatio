@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // lock speed control during simulation
     connect(ui->pushButton,
             &QPushButton::clicked,
             this,
@@ -29,15 +30,15 @@ MainWindow::MainWindow(QWidget *parent)
             static_cast<void (QDoubleSpinBox::*)(bool)>(&QDoubleSpinBox::setEnabled) );
 
 
-    network_ = new Network(":/resources/network.json");
+    network_ = new Network(":/resources/network.json"); // initialize with default network.
     scene_ = new QGraphicsScene(this);
     ui->networkView->setScene(scene_);
     network_->initializeRoutingTables();
-    network_->populateScene(scene_);
+    network_->populateScene(scene_); // add network elements to the scene
 
     scene_->setBackgroundBrush(Qt::white);
-   // ui->networkView->ensureVisible(scene_->sceneRect());
 
+    // simulation global ticker
     ticklcd_ = new QLCDNumber(ui->networkView);
     ticklcd_->setDigitCount(10);
     ticklcd_->show();
@@ -53,6 +54,10 @@ MainWindow::~MainWindow()
     delete network_;
 }
 
+/**
+ * @brief MainWindow::replaceNetwork takes care of replacing the network. Deletes the old one, replaces with new one in gui.
+ * @param network pointer to a network
+ */
 void MainWindow::replaceNetwork(Network *network) {
     delete network_;
     scene_->clear();
@@ -61,11 +66,17 @@ void MainWindow::replaceNetwork(Network *network) {
     scene_->update();
 }
 
+/**
+ * @brief MainWindow::on_actionExit_triggered closes the application.
+ */
 void MainWindow::on_actionExit_triggered()
 {
     MainWindow::close();
 }
 
+/**
+ * @brief MainWindow::on_actionLoad_Simulation_triggered loads network from a file.
+ */
 void MainWindow::on_actionLoad_Simulation_triggered()
 {
 
@@ -98,21 +109,35 @@ void MainWindow::on_actionLoad_Simulation_triggered()
     }
 }
 
+/**
+ * @brief MainWindow::runOneTick forwards one tick together with gui.
+ */
 void MainWindow::runOneTick() {
     network_->runOneTick();
     emit updateTickLcd(network_->getCurrentTick());
     scene_->update();
 }
 
+/**
+ * @brief MainWindow::on_pushButton_2_clicked forwards one tick manually
+ */
 void MainWindow::on_pushButton_2_clicked()
 {
     runOneTick();
 }
 
+/**
+ * @brief MainWindow::timerEvent receives events
+ * @param event event pointer
+ */
 void MainWindow::timerEvent(QTimerEvent *event) {
     runOneTick();
 }
 
+/**
+ * @brief MainWindow::on_pushButton_clicked play/pause button for simulation
+ * @param checked button status
+ */
 void MainWindow::on_pushButton_clicked(bool checked)
 {
     if(checked) {

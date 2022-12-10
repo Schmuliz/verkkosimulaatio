@@ -8,6 +8,9 @@
 #include <QString>
 #include <QMap>
 
+/**
+ * @brief The Network class class that takes ownership of nodes and links. Implements methods for address based link and node initialization
+ */
 class Network
 {
 public:

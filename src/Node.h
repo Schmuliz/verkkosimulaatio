@@ -12,7 +12,9 @@
 
 constexpr double sizeconst = 25;
 
-
+/**
+ * @brief The Node class Abstract class that represents a node in a network
+ */
 class Node : public QGraphicsItem
 {
 public:
