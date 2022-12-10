@@ -20,20 +20,28 @@ Node* createNodeFromJsonObject(QJsonObject obj) {
     int posx = obj["posx"].toInt();
     int posy = obj["posy"].toInt();
     QJsonArray application = obj["application"].toArray();
+    QJsonArray queue = obj["queue"].toArray();
     std::vector<int> applicationparams;
+    std::vector<int> queueparams;
+
     for(QJsonValue param : application) {
         applicationparams.push_back(param.toInt());
     }
+
+    for(QJsonValue param : queue) {
+        queueparams.push_back(param.toInt());
+    }
+
     int routing = obj["routing"].toInt();
 
     if(applicationparams[0] && routing) {
-        node = new RoutingEndHost(address, applicationparams);
+        node = new RoutingEndHost(address, applicationparams, queueparams);
     }
     else if (applicationparams[0]) {
-        node = new EndHost(address, applicationparams);
+        node = new EndHost(address, applicationparams, queueparams);
     }
     else if (routing) {
-        node = new Router(address);
+        node = new Router(address, queueparams);
     }
     else {
         throw "unknown node type";

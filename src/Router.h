@@ -10,7 +10,7 @@
 class Router : virtual public Node
 {
 public:
-    Router(int address);
+    Router(int address, std::vector<int> queue);
     ~Router(){}
     void processPacket(Packet *packet) override;
     void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;

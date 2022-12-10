@@ -10,7 +10,7 @@
 class RoutingEndHost : public EndHost, public Router
 {
 public:
-    RoutingEndHost(int address, std::vector<int> application);
+    RoutingEndHost(int address, std::vector<int> application, std::vector<int> queue);
     ~RoutingEndHost(){}
     void processPacket(Packet *packet) override;
     void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget) override;

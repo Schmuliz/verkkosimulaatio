@@ -3,16 +3,37 @@
 #include <cstdlib>
 #include <QDebug>
 
-
-Node::Node(int address) :
+/**
+ * @brief Node::Node constructor will parse queue type and initialize Queue* packets_
+ * @param address integer address of this node
+ * @param queue vector which contains id (type) and parameter(s) or queue
+ */
+Node::Node(int address, std::vector<int> queue) :
     address_(address) {
     setAcceptHoverEvents(true);
+
+    int queueid = queue.at(0); // always safe to read
+    switch (queueid) {
+        case 1:
+            packets_ = new NoDropQueue();
+            break;
+        case 2:
+            packets_ = new RandomDropQueue(queue.at(1));
+            break;
+        case 3:
+            packets_ = new SizeConstraintQueue(queue.at(1));
+            break;
+        default:
+            throw "unkown queueid";
+    }
 }
 
+/**
+ * @brief Node::~Node deconstructor will delete all packets in received and delete packets_,
+ * which is a Queue* and Queue's own deconstructor will in turn destroy its own packets
+ */
 Node::~Node() {
-    for (auto packet : packets_) {
-        delete packet;
-    }
+    delete packets_;
     for (auto packet : received_) {
         delete packet;
     }
@@ -23,32 +44,32 @@ Node::~Node() {
  * will route packets not meant for this Node to links according to lookupTable_
  */
 void Node::runOneTick() {
-    if (!packets_.empty()) {
-        for (auto packet : packets_) { // increase age of every packet in the node
+    if (!packets_->empty()) {
+        for (auto packet : *packets_) { // increase age of every packet in the node
             packet->runOneTick();
         }
 
-        int dst = packets_.front()->destinationAddress;
+        int dst = packets_->front()->destinationAddress;
 
         // Packets meant for this node are processed and removed from queue
         if (dst == address_) {
-            lastPacketAge_ = packets_.front()->getAge();
-            processPacket(packets_.front());
-            packets_.erase(packets_.begin());
+            lastPacketAge_ = packets_->front()->getAge();
+            processPacket(packets_->front());
+            packets_->erase(packets_->begin());
             return;
         }
 
         // Packets meant for other nodes are routed and passed along to link
-        processPacket(packets_.front());
+        processPacket(packets_->front());
         auto destinationLinkIterator = lookupTable_.find(dst);
 
         if ( destinationLinkIterator == lookupTable_.end() ) { // log warning about unreachable destinations and drop package
             qWarning() << "Packet had unreachable destination " << dst;
-            packets_.erase(packets_.begin());
+            packets_->erase(packets_->begin());
             return;
         }
-        if ( destinationLinkIterator->second->receive(packets_.front()) ) { // only pass to link if it has capacity
-            packets_.erase(packets_.begin());
+        if ( destinationLinkIterator->second->receive(packets_->front()) ) { // only pass to link if it has capacity
+            packets_->erase(packets_->begin());
         }
 
     } else {
@@ -58,11 +79,11 @@ void Node::runOneTick() {
 }
 
 /**
- * @brief Node::receive adds received packet to packets_, from where it will be processes
+ * @brief Node::receive adds received packet to received_, from where it will be processed
  * @param packet packet from received
  */
 void Node::receive(Packet* packet) {
-    packets_.push_back(packet);
+    received_.push_back(packet);
 }
 
 
@@ -71,13 +92,14 @@ void Node::addLink(Link* link) {
 }
 
 /**
- * @brief Node::receivePackets transfers all received packets to the packets_ queue,
- * from where they will be processed one by one. The purpose of this is so that Nodes
- * cannot process packets received this "tick".
+ * @brief Node::receivePackets transfers received packets to the packets_ queue,
+ * from where they will be processed one by one. The queue does not necessarily
+ * accept all of them, it may drop packets depending on its chosen behavior.
+ * The purpose of this is so that Nodes cannot process packets received this "tick".
  */
 void Node::receivePackets() {
     while (!received_.empty()) {
-        packets_.push_back(received_.front());
+        packets_->maybe_push_back(received_.front());
         received_.erase(received_.begin());
     }
 }
@@ -155,7 +177,7 @@ int Node::dummyStat() const {
 }
 
 int Node::getLastPacketAge() const { return lastPacketAge_; }
-int Node::getBufferSize() const { return packets_.size(); }
+int Node::getBufferSize() const { return packets_->size(); }
 
 
 void Node::hoverMoveEvent(QGraphicsSceneHoverEvent *event) {

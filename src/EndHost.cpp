@@ -9,8 +9,8 @@
  * @param address network address
  * @param application vector of variable length that defines a application. First item defines application type, rest are application specific parameters
  */
-EndHost::EndHost(int address, std::vector<int> application)
-    : Node(address) {
+EndHost::EndHost(int address, std::vector<int> application, std::vector<int> queue)
+    : Node(address, queue) {
     int appid = application.at(0); // always safe to read
     std::vector<int> destPart(application.begin()+3, application.end());
     switch (appid) {
@@ -46,7 +46,7 @@ EndHost::~EndHost() {
 void EndHost::processPacket(Packet *packet = nullptr) {
     Packet* newPacket = application_->packetGenerator(address_, packet);
     if (newPacket != nullptr) {
-        packets_.push_back(newPacket);
+        packets_->maybe_push_back(newPacket);
     }
     if (packet != nullptr && packet->destinationAddress == address_) {
         delete packet;
