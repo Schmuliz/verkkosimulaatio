@@ -25,6 +25,8 @@ set(PROJECT_SOURCES
         Application.h
         EndHost.h
         Router.h
+        RoutingEndHost.h
+        Queue.h
         Router.cpp
         Packet.cpp
         Link.cpp
@@ -32,8 +34,8 @@ set(PROJECT_SOURCES
         Network.cpp
         EndHost.cpp
         Application.cpp
-        RoutingEndHost.h
         RoutingEndHost.cpp
+        Queue.cpp
         resources.qrc
 )
 

@@ -5,6 +5,7 @@
 #include "Packet.h"
 #include "Network.h"
 #include "Application.h"
+#include "Queue.h"
 #include <QGraphicsItem>
 #include <vector>
 #include <queue>
@@ -18,7 +19,7 @@ constexpr double sizeconst = 25;
 class Node : public QGraphicsItem
 {
 public:
-    Node(int address);
+    Node(int address, std::vector<int> queue);
     ~Node();
 
     void runOneTick();
@@ -51,7 +52,7 @@ protected:
     void drawBottomText(QPainter*, QString);
 
     std::vector<Link*> links_;
-    std::vector<Packet*> packets_;
+    Queue* packets_;
     int address_;
     std::vector<Packet*> received_;
     std::map<int, Link*> lookupTable_;
