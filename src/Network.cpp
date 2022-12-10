@@ -28,8 +28,14 @@ Node* createNodeFromJsonObject(QJsonObject obj) {
         applicationparams.push_back(param.toInt());
     }
 
-    for(QJsonValue param : queue) {
-        queueparams.push_back(param.toInt());
+    // Queue parameters are optional; this checks parameters exist
+    if (queue.size() == 0) {
+        // If not, ID of 1 is given, which is the ID of a normal, non-dropping queue
+        queueparams.push_back(1);
+    } else {
+        for(QJsonValue param : queue) {
+            queueparams.push_back(param.toInt());
+        }
     }
 
     int routing = obj["routing"].toInt();
