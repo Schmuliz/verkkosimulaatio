@@ -2,6 +2,8 @@
  
 ## Overview
 We have implemented a software based network simulator. The simulator has all the basic features listed in A+ and a GUI based on Qt.
+
+![Main UI](./main_ui_explainer.png)
  
 The simulation is configured with a json file (see format in doc/example-json.pdf in repository) which determines the nodes, links and the applications that generate and receive packets. The nodes can be routers that just forward packets or end-hosts that also run an application. Some end-hosts also have routing capabilities and this is defined in the json file. Links have a transmission speed and a propagation delay. Packets that are in transit between two nodes are stored in either nodes waiting for transmission to the next link or in links along the path if the link's propagation delay is high. The end-hosts have an application that sends packets according to the instructions given in the configuration file and the packets it receives. All packets have ID, source address, destination address, size, age and transmission status attributes.
 The simulator has a **GUI** that visualizes the network and the movement of packets. The GUI shows the amount of packets queued up at the nodes (text box below a node), the age of the most recently received packet (above the node, in steps) and links will show their status (utilization % and cumulative amount of kilobytes transmitted). The simulation can be paused and its speed can be changed with the GUI. The simulation can also be advanced a single step at a time.
@@ -11,7 +13,7 @@ The simulation works by running smaller simulation steps for every element. We d
  
 ## Software structure
 
-![UML Class Diagram](./verkkosimu.drawio.svg){#fig:uml1}
+![UML Class Diagram](./verkkosimu.drawio.svg)
 
 The Packet class represents packets in the network. A single packet can be in a Link or a Node at a single point in time. Packets have sizes, source addresses and destination addresses. 
 The Link class represents links between nodes. Links contain a vector of packets that are currently being transferred. Links have different transmission speeds, propagation delays and maximum throughputs. 
