@@ -59,6 +59,7 @@ protected:
     Network* network_;
     int lastPacketAge_ = 0;
     Application* application_;
+    bool lastPacketStatus_ = true;
 };
 
 #endif // NODE_H

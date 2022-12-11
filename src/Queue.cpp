@@ -16,9 +16,11 @@ NoDropQueue::NoDropQueue()
 /**
  * @brief NoDropQueue::maybe_push_back will always add packet; nothing is dropped
  * @param packet to be added to the queue
+ * @return true always (never drops packet)
  */
-void NoDropQueue::maybe_push_back(Packet* packet) {
+bool NoDropQueue::maybe_push_back(Packet* packet) {
     push_back(packet);
+    return true;
 }
 
 
@@ -29,13 +31,15 @@ RandomDropQueue::RandomDropQueue(int chanceOfDrop)
  * @brief RandomDropQueue::RandomDropQueue drops packet with 0-100 % probability (given when
  * initializing a RandomDropQueue)
  * @param packet to be added or dropped
+ * @return true if successfully added, false if dropped
  */
-void RandomDropQueue::maybe_push_back(Packet* packet) {
+bool RandomDropQueue::maybe_push_back(Packet* packet) {
     if (1 + rand() % 100 < chanceOfDrop_) {
         delete packet;
-    } else {
-        push_back(packet);
+        return false;
     }
+    push_back(packet);
+    return true;
 }
 
 
@@ -46,11 +50,13 @@ SizeConstraintQueue::SizeConstraintQueue(int maxSize)
  * @brief SizeConstraintQueue::maybe_push_back pushes packet to queue if queue size
  * is not at maxSize, which is given during initialization; otherwise drops packet
  * @param packet to be added or dropped
+ * @return true if successfully added, false if dropped
  */
-void SizeConstraintQueue::maybe_push_back(Packet* packet) {
+bool SizeConstraintQueue::maybe_push_back(Packet* packet) {
     if (size() >= maxSize_) {
         delete packet;
-    } else {
-        push_back(packet);
+        return false;
     }
+    push_back(packet);
+    return true;
 }

@@ -25,7 +25,7 @@
       "application": [0],
       "queue": [
         2,
-        50
+        35
       ],
       "routing": 1
     },
@@ -49,7 +49,7 @@
       ],
       "queue": [
         3,
-        3
+        2
       ],
       "routing": 0
     },
@@ -65,7 +65,7 @@
       ],
       "queue": [
         3,
-        3
+        1
       ],
       "routing": 1
     },
@@ -75,8 +75,8 @@
       "posy": 0,
       "application": [0],
       "queue": [
-        3,
-        10
+        2,
+        25
       ],
       "routing": 1
     },
