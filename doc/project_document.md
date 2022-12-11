@@ -10,6 +10,9 @@ The simulation also features **different queue types** for Nodes. These differen
 The simulation works by running smaller simulation steps for every element. We do this by looping the nodes and links, and moving the packets forward accordingly. For example, simulating a node starts by popping its queue and starting to push that packet to the link, and towards the next node. Finally if the transmission status in the simulation is calculated to be ready the packet's ownership is transferred to another node by pushing it to another node's queue.
  
 ## Software structure
+
+![UML Class Diagram](./verkkosimu.drawio.svg){#fig:uml1}
+
 The Packet class represents packets in the network. A single packet can be in a Link or a Node at a single point in time. Packets have sizes, source addresses and destination addresses. 
 The Link class represents links between nodes. Links contain a vector of packets that are currently being transferred. Links have different transmission speeds, propagation delays and maximum throughputs. 
 The Node class is an abstract class that is inherited by different types of nodes. Nodes have links connected to the node and a Queue of packets that haven’t been forwarded or processed yet. Nodes have addresses and lookup tables for packet forwarding. The node class is inherited by different types of nodes.
@@ -36,63 +39,63 @@ The program is tested with some unit tests as well as with faulty json-files. Si
  
 ### Everyone
 **Total time spent on meetings**
-3x official weekly meetings 5h
-Unofficial meetings 6h
+- 3x official weekly meetings 5h
+- Unofficial meetings 6h
 **Total time spent on project documents** 
-6h
+- 6h
  
 ### Eemeli
 **Week 46**
-Initializing Qt project
+- Initializing Qt project
 **Week 47**
-Drawing on QGraphicsView
-Rendering a actual node
+- Drawing on QGraphicsView
+- Rendering a actual node
 **Week 48**
-File format and its loading
-Rendering all nodes distinctly
-Dynamic link rendering
-Qt embedded resource handling
-"Event loop" for simulation that renders on gui
-Parametric apps file format
-Other gui related stuff
+- File format and its loading
+- Rendering all nodes distinctly
+- Dynamic link rendering
+- Qt embedded resource handling
+- "Event loop" for simulation that renders on gui
+- Parametric apps file format
+- Other gui related stuff
 **Week 49**
-Statistics rendering
-Gui stuff
-Convert the project into a library
+- Statistics rendering
+- Gui stuff
+- Convert the project into a library
  
 ### Joonas
 **week 46**
-Setting up own development environment 5h
-Reading up on Qt -3h
+- Setting up own development environment 5h
+- Reading up on Qt -3h
 **week 47**
-Creation of project header files -3h
-Creation of basic methods for network creation - 3h
+- Creation of project header files -3h
+- Creation of basic methods for network creation - 3h
 **week 48**
-Planning and implementation of different types of applications -5h
+- Planning and implementation of different types of applications -5h
 **week 49**
-Adding more applications and refactoring applications -2h
-Adding parameters to applications -2h
+- Adding more applications and refactoring applications -2h
+- Adding parameters to applications -2h
  
 ### Samuli
-Some hour estimates are quite rough, precise time tracking was not always remembered.
+- Some hour estimates are quite rough, precise time tracking was not always remembered.
 **week 46**
-Set up Qt dev environment (3h)
-Learn Qt usage (4h)
-Get to know project and draft potential architecture (2h)
+- Set up Qt dev environment (3h)
+- Learn Qt usage (4h)
+- Get to know project and draft potential architecture (2h)
 **week 47**
-Learn more Qt functionalities (2h)
-Implement first version of Node and its subclasses (4h)
-Start designing routing table generation (my version never used) (1h)
+- Learn more Qt functionalities (2h)
+- Implement first version of Node and its subclasses (4h)
+- Start designing routing table generation (my version never used) (1h)
 **week 48**
-Refactor Nodes to match new design (2h)
+- Refactor Nodes to match new design (2h)
 Comment and document (1h)
 **week 49**
-Refactor Nodes again (2h)
-Refactor Network to match new Node design (1h)
-Plan and Implement Queues (5h)
-Comment and Document (1h)
-Refactor Node, EndHost, Router, RoutingEndHost and Network to support the use of Queues (2h)
-Add a Queue for all Nodes in Network.json and Implement GUI visualization of Queue dropping packets (1h)
+- Refactor Nodes again (2h)
+- Refactor Network to match new Node design (1h)
+- Plan and Implement Queues (5h)
+- Comment and Document (1h)
+- Refactor Node, EndHost, Router, RoutingEndHost and Network to support the use of Queues (2h)
+- Add a Queue for all Nodes in Network.json and Implement GUI visualization of Queue dropping packets (1h)
  
 ### Tuomo
 **Week 46**
