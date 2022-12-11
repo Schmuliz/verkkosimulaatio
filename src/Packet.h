@@ -3,6 +3,9 @@
 
 #include <QGraphicsItem>
 
+/**
+ * @brief The Packet class represents a network packet
+ */
 class Packet
 {
 public:

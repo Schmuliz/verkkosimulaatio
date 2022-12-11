@@ -109,7 +109,7 @@ QRectF Link::boundingRect() const {
     int x1 = std::max(node1_->x(), node2_->x());
     int y1 = std::max(node1_->y(), node2_->y());
 
-    return QRectF(x0, y0, x1, y1);
+    return QRectF(QPointF(x0, y0), QPointF(x1, y1));
 }
 
 /**

@@ -4,11 +4,15 @@
 #include "Network.h"
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <QLCDNumber>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+/**
+ * @brief The MainWindow class. Represents the only window of the application.
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -18,6 +22,7 @@ public:
     ~MainWindow();
 signals:
     void invSimSignal(bool state);
+    void updateTickLcd(int tick);
 
 protected:
     void timerEvent(QTimerEvent *event) override;
@@ -35,11 +40,16 @@ private slots:
         emit invSimSignal(!state);
     };
 
+
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene_;
+    QLCDNumber *ticklcd_;
     Network *network_;
     qint64 simulationtimerid_;
+    void replaceNetwork(Network* network);
+    void runOneTick();
 };
 
 

@@ -1,0 +1,71 @@
+{
+  "nodes": [
+    {
+      "address": 1,
+      "posx": 0,
+      "posy": 0,
+      "application": [
+        2,
+        25,
+        512,
+        2,
+        21,
+        3
+      ],
+      "routing": 0
+    },
+    {
+      "address": 21,
+      "posx": 200,
+      "posy": 0,
+      "application": [
+        3,
+        100,
+        2048,
+        1,
+        2
+      ],
+      "routing": 1
+    },
+    {
+      "address": 11,
+      "posx": 400,
+      "posy": 0,
+      "application": [0],
+      "routing": 1
+    },
+    {
+      "address": 2,
+      "posx": 600,
+      "posy": 0,
+      "application": [
+        3,
+        100,
+        2048,
+        1,
+        21
+      ],
+      "routing": 0
+    }
+  ],
+  "links": [
+    {
+      "hosta": 1,
+      "hostb": 21,
+      "delay": 50,
+      "bandwidth": 500
+    },
+    {
+      "hosta": 21,
+      "hostb": 11,
+      "delay": 50,
+      "bandwidth": 500
+    },
+    {
+      "hosta": 11,
+      "hostb": 2,
+      "delay": 50,
+      "bandwidth": 500
+    }
+  ]
+}

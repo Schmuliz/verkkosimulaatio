@@ -20,20 +20,34 @@ Node* createNodeFromJsonObject(QJsonObject obj) {
     int posx = obj["posx"].toInt();
     int posy = obj["posy"].toInt();
     QJsonArray application = obj["application"].toArray();
+    QJsonArray queue = obj["queue"].toArray();
     std::vector<int> applicationparams;
+    std::vector<int> queueparams;
+
     for(QJsonValue param : application) {
         applicationparams.push_back(param.toInt());
     }
+
+    // Queue parameters are optional; this checks parameters exist
+    if (queue.size() == 0) {
+        // If not, ID of 1 is given, which is the ID of a normal, non-dropping queue
+        queueparams.push_back(1);
+    } else {
+        for(QJsonValue param : queue) {
+            queueparams.push_back(param.toInt());
+        }
+    }
+
     int routing = obj["routing"].toInt();
 
     if(applicationparams[0] && routing) {
-        node = new RoutingEndHost(address, applicationparams);
+        node = new RoutingEndHost(address, applicationparams, queueparams);
     }
     else if (applicationparams[0]) {
-        node = new EndHost(address, applicationparams);
+        node = new EndHost(address, applicationparams, queueparams);
     }
     else if (routing) {
-        node = new Router(address);
+        node = new Router(address, queueparams);
     }
     else {
         throw "unknown node type";
@@ -91,8 +105,11 @@ Network::Network(QString filename) {
 
         this->initializeRoutingTables();
     }
-    catch (std::exception) {
-        throw "failed to parse network configuration";
+    catch (const char* msg) {
+        throw msg;
+    }
+    catch (...) {
+        qCritical() << "unknown network parsing error";
     }
 }
 
@@ -128,9 +145,13 @@ void Network::runOneTick() {
     for (auto const& link : links_) {
         link->receivePackets();
     }
+    tick_++;
 }
 
-
+/**
+ * @brief Network::addNode adds node to the network
+ * @param node pointer to a network node
+ */
 void Network::addNode(Node *node) {
     nodes_.insert(node->getAddress(), node);
 }
@@ -146,6 +167,9 @@ void Network::addLink(int a, int b, double bandwidth, double delay) {
     // lookup nodes based on address
     Node* hosta = nodes_[a];
     Node* hostb = nodes_[b];
+    if(!(hosta && hostb)) {
+        throw "bad link added";
+    }
     Link* linka = new Link(hosta, hostb, bandwidth, delay);
     Link* linkb = new Link(hostb, hosta, bandwidth, delay);
     links_.push_back(linka);
@@ -174,4 +198,13 @@ void Network::populateScene(QGraphicsScene *scene) {
     for(auto node : nodes_) {
         scene->addItem(node);
     }
+
+}
+
+/**
+ * @brief Network::getCurrentTick
+ * @return current tick of the simulation
+ */
+int Network::getCurrentTick() const {
+    return tick_;
 }

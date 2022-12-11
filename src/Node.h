@@ -5,6 +5,7 @@
 #include "Packet.h"
 #include "Network.h"
 #include "Application.h"
+#include "Queue.h"
 #include <QGraphicsItem>
 #include <vector>
 #include <queue>
@@ -12,11 +13,13 @@
 
 constexpr double sizeconst = 25;
 
-
+/**
+ * @brief The Node class Abstract class that represents a node in a network
+ */
 class Node : public QGraphicsItem
 {
 public:
-    Node(int address);
+    Node(int address, std::vector<int> queue);
     ~Node();
 
     void runOneTick();
@@ -49,13 +52,14 @@ protected:
     void drawBottomText(QPainter*, QString);
 
     std::vector<Link*> links_;
-    std::vector<Packet*> packets_;
+    Queue* packets_;
     int address_;
     std::vector<Packet*> received_;
     std::map<int, Link*> lookupTable_;
     Network* network_;
     int lastPacketAge_ = 0;
     Application* application_;
+    bool lastPacketStatus_ = true;
 };
 
 #endif // NODE_H

@@ -4,8 +4,8 @@
 #include <QDebug>
 
 
-Router::Router(int address)
-    : Node(address) {}
+Router::Router(int address, std::vector<int> queue)
+    : Node(address, queue) {}
 
 /**
  * @brief Router::processPacket processes packet; will simply destroy packet if its destination is this Router

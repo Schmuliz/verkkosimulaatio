@@ -1,0 +1,39 @@
+{
+  "nodes": [
+    {
+      "address": 1,
+      "posx": 0,
+      "posy": 0,
+      "application": [
+        2,
+        25,
+        512,
+        2,
+        21,
+        3
+      ],
+      "routing": 0
+    },
+    {
+      "address": 21,
+      "posx": 200,
+      "posy": 0,
+      "application": [
+        3,
+        100,
+        2048,
+        1,
+        2
+      ],
+      "routing": 1
+    }
+  ],
+  "links": [
+    {
+      "hosta": 1,
+      "hostb": 2,
+      "delay": 50,
+      "bandwidth": 500
+    }
+  ]
+}

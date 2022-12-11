@@ -8,6 +8,9 @@
 #include <QString>
 #include <QMap>
 
+/**
+ * @brief The Network class class that takes ownership of nodes and links. Implements methods for address based link and node initialization
+ */
 class Network
 {
 public:
@@ -19,10 +22,12 @@ public:
     void addLink(int a, int b, double bandwidth, double delay);
     void initializeRoutingTables() const;
     void populateScene(QGraphicsScene* scene);
+    int getCurrentTick() const;
 
 private:
     QMap<int, Node*> nodes_; // address-node
     std::vector<Link*> links_;
+    int tick_ = 0;
 };
 
 #endif // NETWORK_H

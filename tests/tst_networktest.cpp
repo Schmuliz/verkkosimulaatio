@@ -18,8 +18,8 @@ private slots:
     void initTestCase()
     {
         network = new Network();
-        EndHost *a = new EndHost(1, {1,10,256,2});
-        EndHost *b = new EndHost(2, {1,10,256,2});
+        EndHost *a = new EndHost(1, {1,10,256,2}, {1, 0});
+        EndHost *b = new EndHost(2, {1,10,256,2}, {1, 0});
         network->addNode(a);
         network->addNode(b);
         network->addLink(1,2,500,50);

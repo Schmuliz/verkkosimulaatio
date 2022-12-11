@@ -6,6 +6,8 @@
 #include <QDebug> // qDebug() is cursed, use qInfo() or higher
 #include <QPushButton>
 #include <QDoubleSpinBox>
+#include <QMessageBox>
+
 
 /**
  * @brief MainWindow::MainWindow constructs Qt MainWindow
@@ -17,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // lock speed control during simulation
     connect(ui->pushButton,
             &QPushButton::clicked,
             this,
@@ -27,16 +30,22 @@ MainWindow::MainWindow(QWidget *parent)
             static_cast<void (QDoubleSpinBox::*)(bool)>(&QDoubleSpinBox::setEnabled) );
 
 
+    network_ = new Network(":/resources/network.json"); // initialize with default network.
     scene_ = new QGraphicsScene(this);
-    scene_->setBackgroundBrush(Qt::white);
     ui->networkView->setScene(scene_);
-
-    network_ = new Network(":/resources/network.json");
-    network_->populateScene(scene_);
-
-    scene_->addEllipse(-5, -5, 10, 10); // center of the universe indicator
-
     network_->initializeRoutingTables();
+    network_->populateScene(scene_); // add network elements to the scene
+
+    scene_->setBackgroundBrush(Qt::white);
+
+    // simulation global ticker
+    ticklcd_ = new QLCDNumber(ui->networkView);
+    ticklcd_->setDigitCount(10);
+    ticklcd_->show();
+    connect(this,
+            &MainWindow::updateTickLcd,
+            ticklcd_,
+            static_cast<void (QLCDNumber::*)(int)>(&QLCDNumber::display) );
 }
 
 MainWindow::~MainWindow()
@@ -45,13 +54,29 @@ MainWindow::~MainWindow()
     delete network_;
 }
 
+/**
+ * @brief MainWindow::replaceNetwork takes care of replacing the network. Deletes the old one, replaces with new one in gui.
+ * @param network pointer to a network
+ */
+void MainWindow::replaceNetwork(Network *network) {
+    delete network_;
+    scene_->clear();
+    network_ = network;
+    network_->populateScene(scene_);
+    scene_->update();
+}
 
+/**
+ * @brief MainWindow::on_actionExit_triggered closes the application.
+ */
 void MainWindow::on_actionExit_triggered()
 {
     MainWindow::close();
 }
 
-
+/**
+ * @brief MainWindow::on_actionLoad_Simulation_triggered loads network from a file.
+ */
 void MainWindow::on_actionLoad_Simulation_triggered()
 {
 
@@ -61,29 +86,58 @@ void MainWindow::on_actionLoad_Simulation_triggered()
     dialog.setViewMode(QFileDialog::Detail);
     QString filename;
     if(dialog.exec()) {
-        filename = dialog.selectedFiles().at(0); // only single file can be selected
+        filename = dialog.selectedFiles().at(0); // only a single file can be selected
     }
     qInfo() << "File dialog selected file: " << filename;
 
-    delete network_;
-    network_ = new Network(filename);
+    Network *newnetwork = nullptr;
+    try {
+        newnetwork = new Network(filename);
+        replaceNetwork(newnetwork);
+        ticklcd_->display(0);
+    }
+    catch (const char* msg) {
+        qCritical() << msg;
+        delete newnetwork;
+        auto mbox = QMessageBox(QMessageBox::Critical, "Error", msg);
+        mbox.exec();
+    }
+    catch (...) {
+        auto mbox = QMessageBox(QMessageBox::Critical, "Error", "unknown file loading error");
+        mbox.exec();
+        delete newnetwork;
+    }
 }
 
+/**
+ * @brief MainWindow::runOneTick forwards one tick together with gui.
+ */
+void MainWindow::runOneTick() {
+    network_->runOneTick();
+    emit updateTickLcd(network_->getCurrentTick());
+    scene_->update();
+}
 
-/***
- * \brief Updates scene
+/**
+ * @brief MainWindow::on_pushButton_2_clicked forwards one tick manually
  */
 void MainWindow::on_pushButton_2_clicked()
 {
-    network_->runOneTick();
-    scene_->update();
+    runOneTick();
 }
 
+/**
+ * @brief MainWindow::timerEvent receives events
+ * @param event event pointer
+ */
 void MainWindow::timerEvent(QTimerEvent *event) {
-    network_->runOneTick();
-    scene_->update();
+    runOneTick();
 }
 
+/**
+ * @brief MainWindow::on_pushButton_clicked play/pause button for simulation
+ * @param checked button status
+ */
 void MainWindow::on_pushButton_clicked(bool checked)
 {
     if(checked) {
@@ -93,5 +147,3 @@ void MainWindow::on_pushButton_clicked(bool checked)
         killTimer(simulationtimerid_);
     }
 }
-
-
