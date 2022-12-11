@@ -99,8 +99,9 @@ void Node::addLink(Link* link) {
  */
 void Node::receivePackets() {
     while (!received_.empty()) {
-        packets_->maybe_push_back(received_.front());
+        bool succeeded = packets_->maybe_push_back(received_.front());
         received_.erase(received_.begin());
+        lastPacketStatus_ = succeeded;
     }
 }
 
@@ -201,7 +202,8 @@ void Node::drawTopText(QPainter* painter, QString text) {
 }
 
 /**
- * @brief Node::drawBelowText draw text in a box below the node
+ * @brief Node::drawBelowText draw text in a box below the node - black if latest addition to queue
+ * was a success, red if packet was dropped
  * @param painter qpainter to use
  * @param text qstring of the text
  */
@@ -209,7 +211,14 @@ void Node::drawBottomText(QPainter* painter, QString text) {
     QRectF bottomrect(-sizeconst, sizeconst, sizeconst*2, sizeconst*2/3);
     bottomrect.translate(QPointF(0, 2));
     painter->fillRect(bottomrect, Qt::white);
-    painter->setPen(QPen(Qt::black));
+
+    // Check if latest arrived packet was dropped and set color accordingly
+    if (lastPacketStatus_) {
+        painter->setPen(QPen(Qt::black));
+    } else {
+        painter->setPen(QPen(Qt::red));
+    }
+
     painter->drawRect(bottomrect);
     painter->drawText(bottomrect, Qt::AlignCenter, text);
 }

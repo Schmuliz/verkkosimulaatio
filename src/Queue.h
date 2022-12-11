@@ -13,7 +13,7 @@ class Queue : public std::vector<Packet*>
 public:
     Queue(){};
     virtual ~Queue();
-    virtual void maybe_push_back(Packet*) = 0;
+    virtual bool maybe_push_back(Packet*) = 0;
 };
 
 /**
@@ -24,7 +24,7 @@ class NoDropQueue : public Queue
 public:
     NoDropQueue();
     ~NoDropQueue(){};
-    void maybe_push_back(Packet*) override;
+    bool maybe_push_back(Packet*) override;
 };
 
 /**
@@ -36,7 +36,7 @@ class RandomDropQueue : public Queue
 public:
     RandomDropQueue(int chanceOfDrop);
     ~RandomDropQueue(){};
-    void maybe_push_back(Packet*) override;
+    bool maybe_push_back(Packet*) override;
 private:
     int chanceOfDrop_;
 };
@@ -49,7 +49,7 @@ class SizeConstraintQueue : public Queue
 public:
     SizeConstraintQueue(int maxSize);
     ~SizeConstraintQueue(){};
-    void maybe_push_back(Packet*) override;
+    bool maybe_push_back(Packet*) override;
 private:
     double maxSize_;
 };
